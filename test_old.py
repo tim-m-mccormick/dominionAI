@@ -88,31 +88,28 @@ class Player:
         self.draw(5)
         return None
         
-num_games = 100
-winner_points = []
-for i in range(num_games)
+
+kingdom = Kingdom()
+player1 = Player(kingdom)
+player2 = Player(kingdom)
+
+player_list = cycle(enumerate([player1, player2]))
+game_over = False
+Verbose = False
+player_turn = 2*[0]
+while not game_over:
+    idx, player = next(player_list)
+    print("Player " + str(idx) + " takes xer turn")
+    player.turn()
+    player_turn[idx] += 1
+    game_over = kingdom.check_endgame()
     
-    kingdom = Kingdom()
-    player1 = Player(kingdom)
-    player2 = Player(kingdom)
-    
-    player_list = cycle(enumerate([player1, player2]))
-    game_over = False
-    Verbose = False
-    player_turn = 2*[0]
-    while not game_over:
-        idx, player = next(player_list)
-        print("Player " + str(idx) + " takes xer turn")
-        player.turn()
-        player_turn[idx] += 1
-        game_over = kingdom.check_endgame()
-        
-    final_points = list(map(lambda x: 3 + 6*x.deck.count('Province'), [player1, player2]))
-    #print("Final scores (Player, Points):")
-    #print(list(enumerate(final_points)))
-    #print(player_turn)
-    
-    winner_points.append(final_points[]) 
+final_points = list(map(lambda x: 3 + 6*x.deck.count('Province'), [player1, player2]))
+print("Final scores (Player, Points):")
+print(list(enumerate(final_points)))
+#print(player_turn)
+
+
 
 
         

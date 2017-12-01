@@ -19,6 +19,7 @@ can be used for discard pile, draw pile, hand, deck, and kingdom stacks
 class Stack:
     
     def __init__(self, cards=[]):        
+
         self.cards = cards
         self.update()        
         return None

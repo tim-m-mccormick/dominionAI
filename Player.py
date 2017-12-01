@@ -37,19 +37,12 @@ class Player:
         else:
             self.strategy = strategy(self, kingdom.stacks.keys())
         
-        initial_cards  = list(map(Card, 3*['Estate'] + 7*['Copper']))
-        
-        self.discard_pile = Stack()
-        self.hand = Hand()
-
-        self.deck = Deck(initial_cards)
-        self.draw_pile = Stack(initial_cards)
-        print (self.hand.size())
-        print (self.discard_pile.size())
-        self.draw_pile.shuffle()
-        
-        # need way to dynamically update hand, discard, draw and deck neatly
-        
+        self.kingdom = kingdom
+        self.discard_pile = Stack(cards = list(map(Card,7*['Copper'] + 3*['Estate'])))
+        self.draw_pile = Stack(cards=[])
+        self.hand      = Hand(cards=[])
+        self.deck      = Deck(cards=self.discard_pile.cards + self.draw_pile.cards)
+        self.reshuffle()
         self.draw(5)
         
         return None
@@ -57,8 +50,8 @@ class Player:
     # private method to reshuffle     
     def reshuffle(self):
         
-        self.draw_pile = self.discard_pile
-        self.discard_pile = Stack()
+        self.draw_pile = Stack(cards=self.discard_pile.cards)
+        self.discard_pile = Stack(cards=[])
         self.draw_pile.shuffle()
         
         return None
@@ -66,12 +59,11 @@ class Player:
     # private method to draw n cards
     def draw(self, n):
 
-        print(self.hand.size())
         for i in range(n):
             if self.draw_pile.size() == 0:
                 self.reshuffle()    
             self.hand.extend([self.draw_pile.pop()])
-        print(self.hand.size())
+
         #print(self.hand.names())
         return None
     
@@ -79,17 +71,16 @@ class Player:
     def discard(self, n):
         
         if n == self.hand.size():
-            discards = tuple(self.hand.cards)
+            self.discards = tuple(self.hand.cards)
 #            print(discards)
 #            print(self.hand.cards)
         else:
-            discards = tuple(self.strategy.discard(self.hand, n)) # this should not happen yet
-        
-        print(len(discards))            
-        for c in discards: 
+            self.discards = tuple(self.strategy.discard(self.hand, n)) # this should not happen yet
+                   
+        for c in self.discards: 
             self.hand.remove(c)
-        self.discard_pile.extend(discards)
-        del discards
+        self.discard_pile.extend(self.discards)
+        del self.discards
         return None
     
     def discard_to(self, n):
@@ -115,6 +106,7 @@ class Player:
         
         ## how to interface with Kingdom and Game instance?
     def buy(self, card):
+        print("   has hand: ", self.hand.names())
         print("   buys " + card)
         popped = self.kingdom.pop(card)
         self.discard_pile.extend([popped])

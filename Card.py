@@ -8,13 +8,14 @@ class Card:
     
     def __init__(self, card='Copper'):
         #default points is zero
+        self.name = card
         self.points = 0
         self.value  = 0
         #Check cards and call appropriate constructor
         if card in ['Copper', 'Silver', 'Gold', 'Platinum']:
-            self.money_card(card)
+            self.money_card(self.name)
         elif card in ['Estate', 'Dutchy', 'Province', 'Colony']:
-            self.victory_card(card)
+            self.victory_card(self.name)
 
     def money_card(self, card):
         #Check what type of card

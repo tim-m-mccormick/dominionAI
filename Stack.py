@@ -47,6 +47,9 @@ class Stack:
     
     def size(self):
         return len(self.cards)
+    
+    def names(self):
+        return [card.name for card in self.cards]
 
 # Hand subclass keeps track of total coin value when updated     
 class Hand(Stack):

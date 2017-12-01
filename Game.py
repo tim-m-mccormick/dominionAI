@@ -27,8 +27,7 @@ class Game:
                           'Workshop']
         self.n_players = n_players
         self.kingdom   = Kingdom(n_players, self.cards)
-        self.players   = n_players*[Player()]
-
+        self.players   = [Player(self.kingdom) for n in range(n_players)]
         self.game_over = False
         
         return None

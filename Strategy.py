@@ -21,13 +21,13 @@ class Strategy:
         
         return None
     
-    def action_phase(self, )
+    def action_phase(self):
+        pass
     
 class BigMoney(Strategy):
     
     def action_phase(self, player):
-        
-        return None
+        pass
     
     def buy_phase(self, player):
         

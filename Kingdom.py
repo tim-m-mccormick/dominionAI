@@ -18,13 +18,17 @@ class Kingdom:
         self.stacks['Silver']   = Stack(40*[Card('Silver')])
         self.stacks['Gold']     = Stack(30*[Card('Gold')])       
         self.stacks['Curse']    = Stack(self.n_curs(n_players)*[Card('Curse')])
-        self.stacks['Estate']   = Stack(self.n_vict(n_players)*[Card('Estate')]
+        self.stacks['Estate']   = Stack(self.n_vict(n_players)*[Card('Estate')])
         self.stacks['Duchy']    = Stack(self.n_vict(n_players)*[Card('Duchy')])
         self.stacks['Province'] = Stack(self.n_vict(n_players)*[Card('Province')])
         
         for card in cards:
             self.stacks[card] = Stack(10*[Card(card)])
     
+    def pop(self, card):
+        return self.stacks[card].pop()
+    
+    @staticmethod
     def n_vict(n):
         if n == 2:
             return 8
@@ -32,7 +36,8 @@ class Kingdom:
             return 12
         else:
             return 15
-    
+        
+    @staticmethod
     def n_curs(n):
         return 10*(n-1)
             

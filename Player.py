@@ -39,12 +39,17 @@ class Player:
         
         initial_cards  = list(map(Card, 3*['Estate'] + 7*['Copper']))
         
+        self.discard_pile = Stack()
+        self.hand = Hand()
+
         self.deck = Deck(initial_cards)
-        self.deck.shuffle()
+        self.draw_pile = Stack(initial_cards)
+        print (self.hand.size())
+        print (self.discard_pile.size())
+        self.draw_pile.shuffle()
         
         # need way to dynamically update hand, discard, draw and deck neatly
         
-        self.draw_pile = self.deck
         self.draw(5)
         
         return None
@@ -53,7 +58,7 @@ class Player:
     def reshuffle(self):
         
         self.draw_pile = self.discard_pile
-        self.discard_pile = []
+        self.discard_pile = Stack()
         self.draw_pile.shuffle()
         
         return None
@@ -61,24 +66,34 @@ class Player:
     # private method to draw n cards
     def draw(self, n):
 
+        print(self.hand.size())
         for i in range(n):
-            if len(self.draw_pile) == 0:
-                self.reshulffle()    
+            if self.draw_pile.size() == 0:
+                self.reshuffle()    
             self.hand.extend([self.draw_pile.pop()])
-            
+        print(self.hand.size())
+        #print(self.hand.names())
         return None
     
     # private method for discarding. used for cleanup and attacks
     def discard(self, n):
         
-        if n == len(self.hand):
-            discards = tuple(self.hand)
+        if n == self.hand.size():
+            discards = tuple(self.hand.cards)
+#            print(discards)
+#            print(self.hand.cards)
         else:
             discards = tuple(self.strategy.discard(self.hand, n)) # this should not happen yet
-            
-        for c in discards: self.hand.remove(c)
-        self.discard_pile.extend(discards)
         
+        print(len(discards))            
+        for c in discards: 
+            self.hand.remove(c)
+        self.discard_pile.extend(discards)
+        del discards
+        return None
+    
+    def discard_to(self, n):
+        self.discard(self.hand.size()-n)
         return None
     
     def trash(self, card):
@@ -90,19 +105,19 @@ class Player:
         
         self.actions = 1
         self.buys    = 1
-
-        self.strategy.take_turn(self) # magic happens here
-        
+        self.strategy.take_turn(self) # magic happens here        
         self.cleanup()
-    
     
     def cleanup(self):
         
-        self.discard(len(self.hand))
+        self.discard(self.hand.size())
         self.draw(5)
         
         ## how to interface with Kingdom and Game instance?
     def buy(self, card):
-        self.discard_pile
-        
+        print("   buys " + card)
+        popped = self.kingdom.pop(card)
+        self.discard_pile.extend([popped])
+        self.deck.extend([popped])
+        return None
         

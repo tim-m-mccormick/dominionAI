@@ -6,7 +6,9 @@ Created on Fri Dec  1 10:50:40 2017
 """
 class Card:
     
-    def __init__(self, card='Copper'):
+    def __init__(self, card='Copper', game = 'none'):
+        if game == 'none':
+            print('did not pass a game to card!!')
         #default points is zero
         self.name = card
         self.points = 0
@@ -18,6 +20,12 @@ class Card:
             self.victory_card(self.name)
         elif card in ['Curse']:
             self.curse_card(self.name)
+        elif card in ['Adventurer', 'Bureaucrat', 'Cellar', 'Chancellor', 
+                      'Chapel', 'CouncilRoom', 'Feast', 'Festival', 'Gardens',
+                      'Laboratory', 'Library', 'Market', 'Militia', 'Mine',
+                      'Moat', 'Moneylender', 'Remodel', 'Smithy', 'Spy', 
+                      'Thief', 'ThroneRoom', 'Village', 'Witch', 'Woodcutter']:
+            self.base_game_card(card, game)
 
     def money_card(self, card):
         #Check what type of card
@@ -60,5 +68,5 @@ class Card:
         else:
             print('curse_card() called with non-curse card')
             
-    def base_set(self, card):
+    def base_game_card(self, card):
         

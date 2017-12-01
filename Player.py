@@ -31,7 +31,6 @@ class Player:
         # kingdom is passed to each Player
         # and gets modified during buy()
         self.game = game
-        
         if strategy is None:
             self.strategy = BigMoney(self, self.game.kingdom.stacks.keys())
         else:
@@ -105,8 +104,9 @@ class Player:
         
         ## how to interface with Kingdom and Game instance?
     def buy(self, card):
-        print("   has hand: ", self.hand.names())
-        print("   buys " + card)
+        if self.game.verbose:
+            print("   has hand: ", self.hand.names())
+            print("   buys " + card)
         popped = self.game.kingdom.pop(card)
         self.discard_pile.extend([popped])
         self.deck.extend([popped])

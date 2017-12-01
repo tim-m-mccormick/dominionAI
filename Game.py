@@ -12,7 +12,7 @@ Game of Dominion
 """
 class Game:
     
-    def __init__(self, n_players=2, cards=None):
+    def __init__(self, n_players=2, cards=None, verbose=True):
         if cards == None:            
             # if no provided cards, create "First Game"
             self.cards = ['Cellar',
@@ -25,6 +25,7 @@ class Game:
                           'Village',
                           'Woodcutter',
                           'Workshop']
+        self.verbose   = verbose
         self.n_players = n_players
         self.kingdom   = Kingdom(self)
         self.players   = [Player(self) for n in range(n_players)]
@@ -33,7 +34,7 @@ class Game:
         self.final_scores  = None
         return None
     
-    def play(self):
+    def _quiet_play(self):
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
         while not self.game_over:
@@ -44,7 +45,7 @@ class Game:
             
         self.final_points = list(map(lambda x: x.deck.points, self.players))
         
-    def print_play(self):        
+    def _print_play(self):        
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
         while not self.game_over:
@@ -64,6 +65,12 @@ class Game:
         print(list(enumerate(self.final_points)))
         
         return None
+    
+    def play(self):
+        if self.verbose:
+            self._print_play()
+        else:
+            self._quiet_play()
     
     def get_final_scores(self):
         assert self.game_over, "play the game first!"

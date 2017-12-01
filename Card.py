@@ -71,7 +71,7 @@ class Card:
             print('curse_card() called with non-curse card')
             
     def base_game_card(self, card):
-        if card == 'Adventurer':
+        if card   == 'Adventurer':
             pass
         elif card == 'Bureaucrat':
             pass
@@ -83,4 +83,47 @@ class Card:
             pass
         elif card == 'CouncilRoom':
             pass
-        elif card == 
+        elif card == 'Feast':
+            pass
+        elif card == 'Festival':
+            pass
+        elif card == 'Gardens':
+            pass
+        elif card == 'Laboratory':
+            pass
+        elif card == 'Library':
+            pass
+        elif card == 'Market':
+            pass
+        elif card == 'Militia':
+            pass
+        elif card == 'Mine':
+            pass
+        elif card == 'Moat':
+            pass
+        elif card == 'Moneylender':
+            pass
+        elif card == 'Remodel':
+            pass
+        elif card == 'Smithy':
+            self.cost = 4
+            self.new_cards = 3
+        elif card == 'Spy':
+            pass
+        elif card == 'Thief':
+            pass
+        elif card == 'ThroneRoom':
+            pass
+        elif card == 'Village':
+            pass
+        elif card == 'Witch':
+            pass
+        elif card == 'Woodcutter':
+            pass
+        elif card == 'Workshop':
+            pass
+        elif card == 'CouncilRoom':
+            pass
+        else:
+            print('card not found in base game!')
+

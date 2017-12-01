@@ -6,7 +6,7 @@ Created on Thu Nov 30 21:13:42 2017
 
 Kingdom class for Dominion
 
-@author: blenderherad
+@author: blenderhead, tim-m-mccormick
 """
 
 class Kingdom:

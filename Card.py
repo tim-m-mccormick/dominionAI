@@ -20,13 +20,13 @@ class Card:
             self.victory_card(self.name)
         elif card in ['Curse']:
             self.curse_card(self.name)
-        elif card in ['Adventurer', 'Bureaucrat', 'Cellar', 'Chancellor', 
-                      'Chapel', 'CouncilRoom', 'Feast', 'Festival', 'Gardens',
-                      'Laboratory', 'Library', 'Market', 'Militia', 'Mine',
-                      'Moat', 'Moneylender', 'Remodel', 'Smithy', 'Spy', 
-                      'Thief', 'ThroneRoom', 'Village', 'Witch', 'Woodcutter']:
-            #self.base_game_card(card, game)
-            pass
+        elif card in ['Adventurer', 'Bureaucrat', 'Cellar', 'Chancellor', 'Chapel', 
+                      'CouncilRoom', 'Feast', 'Festival', 'Gardens', 'Laboratory', 
+                      'Library', 'Market', 'Militia', 'Mine', 'Moat', 
+                      'Moneylender', 'Remodel', 'Smithy', 'Spy', 'Thief', 
+                      'ThroneRoom', 'Village', 'Witch', 'Woodcutter', 'Workshop']:
+            self.base_game_card(card, game)
+            
 
     def money_card(self, card):
         #Check what type of card
@@ -70,4 +70,7 @@ class Card:
             print('curse_card() called with non-curse card')
             
     def base_game_card(self, card):
-        pass
+        if card == 'Adventurer': '
+            pass
+        elif card == 'Bureaucrat':
+            pass

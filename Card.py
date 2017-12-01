@@ -9,6 +9,7 @@ class Card:
     def __init__(self, card='Copper'):
         #default points is zero
         self.points = 0
+        self.value  = 0
         #Check cards and call appropriate constructor
         if card in ['Copper', 'Silver', 'Gold', 'Platinum']:
             self.money_card(card)

@@ -11,19 +11,20 @@ Kingdom class for Dominion
 
 class Kingdom:
     
-    def __init__(self, n_players=2, cards=[]):
+    def __init__(self, game = 'none'):
         
+        self.game    = game
         self.stacks  = {}
-        self.stacks['Copper']   = (Stack((60-7*n_players)*[Card('Copper')]))
-        self.stacks['Silver']   = Stack(40*[Card('Silver')])
-        self.stacks['Gold']     = Stack(30*[Card('Gold')])       
-        self.stacks['Curse']    = Stack(self.n_curs(n_players)*[Card('Curse')])
-        self.stacks['Estate']   = Stack(self.n_vict(n_players)*[Card('Estate')])
-        self.stacks['Duchy']    = Stack(self.n_vict(n_players)*[Card('Duchy')])
-        self.stacks['Province'] = Stack(self.n_vict(n_players)*[Card('Province')])
+        self.stacks['Copper']   = Stack([Card('Copper',   self.game) for i in range(60-7*self.game.n_players)])
+        self.stacks['Silver']   = Stack([Card('Silver',   self.game) for i in range(40)])
+        self.stacks['Gold']     = Stack([Card('Gold',     self.game) for i in range(30)])       
+        self.stacks['Curse']    = Stack([Card('Curse',    self.game) for i in range(self.n_curs(self.game.n_players))])
+        self.stacks['Estate']   = Stack([Card('Estate',   self.game) for i in range(self.n_vict(self.game.n_players))])
+        self.stacks['Duchy']    = Stack([Card('Duchy',    self.game) for i in range(self.n_vict(self.game.n_players))])
+        self.stacks['Province'] = Stack([Card('Province', self.game) for i in range(self.n_vict(self.game.n_players))])
         
-        for card in cards:
-            self.stacks[card] = Stack(10*[Card(card)])
+        for card in self.game.cards:
+            self.stacks[card] = Stack([Card(card, self.game) for i in range(10)]) # needs to be adjusted for things like Gardens
     
     def pop(self, card):
         return self.stacks[card].pop()

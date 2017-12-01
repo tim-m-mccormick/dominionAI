@@ -7,7 +7,5 @@ Created on Fri Dec  1 09:22:12 2017
 from Game import Game
 
 game = Game()
-game.play()
-
-        
+game.print_play()    
         

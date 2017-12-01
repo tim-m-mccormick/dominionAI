@@ -26,19 +26,18 @@ methods:
 class Player:
     
     # constructor used to create a new player at the beginning of a Game
-    def __init__(self, kingdom, strategy=None):
+    def __init__(self, game, strategy=None):
         
         # kingdom is passed to each Player
         # and gets modified during buy()
-        self.kingdom = kingdom
+        self.game = game
         
         if strategy is None:
-            self.strategy = BigMoney(self, kingdom.stacks.keys())
+            self.strategy = BigMoney(self, self.game.kingdom.stacks.keys())
         else:
-            self.strategy = strategy(self, kingdom.stacks.keys())
+            self.strategy = strategy(self, self.game.kingdom.stacks.keys())
         
-        self.kingdom = kingdom
-        self.discard_pile = Stack(cards = list(map(Card,7*['Copper'] + 3*['Estate'])))
+        self.discard_pile = Stack(cards = list(map(lambda x: Card(x, self.game),7*['Copper'] + 3*['Estate'])))
         self.draw_pile = Stack(cards=[])
         self.hand      = Hand(cards=[])
         self.deck      = Deck(cards=self.discard_pile.cards + self.draw_pile.cards)
@@ -108,7 +107,7 @@ class Player:
     def buy(self, card):
         print("   has hand: ", self.hand.names())
         print("   buys " + card)
-        popped = self.kingdom.pop(card)
+        popped = self.game.kingdom.pop(card)
         self.discard_pile.extend([popped])
         self.deck.extend([popped])
         return None

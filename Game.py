@@ -26,8 +26,8 @@ class Game:
                           'Woodcutter',
                           'Workshop']
         self.n_players = n_players
-        self.kingdom   = Kingdom(n_players, self.cards)
-        self.players   = [Player(self.kingdom) for n in range(n_players)]
+        self.kingdom   = Kingdom(self)
+        self.players   = [Player(self) for n in range(n_players)]
         self.game_over = False
         
         return None

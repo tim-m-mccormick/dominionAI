@@ -16,7 +16,7 @@ class Card:
         elif card in ['Estate', 'Dutchy', 'Province', 'Colony']:
             self.victory_card(card)
 
-    def money_card(card):
+    def money_card(self, card):
         #Check what type of card
         if card == 'Copper':
             self.cost = 0
@@ -33,7 +33,7 @@ class Card:
         else:
             print('money_card() called using non-money arguement')
             
-    def victory_card(card):
+    def victory_card(self, card):
         #check what type of victory card
         if card == 'Estate':
             self.cost = 2

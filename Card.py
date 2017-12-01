@@ -25,7 +25,8 @@ class Card:
                       'Library', 'Market', 'Militia', 'Mine', 'Moat', 
                       'Moneylender', 'Remodel', 'Smithy', 'Spy', 'Thief', 
                       'ThroneRoom', 'Village', 'Witch', 'Woodcutter', 'Workshop']:
-            self.base_game_card(card, game)
+            #self.base_game_card(self, card, game)
+            pass
             
 
     def money_card(self, card):
@@ -70,7 +71,7 @@ class Card:
             print('curse_card() called with non-curse card')
             
     def base_game_card(self, card):
-        if card == 'Adventurer': '
+        if card == 'Adventurer':
             pass
         elif card == 'Bureaucrat':
             pass

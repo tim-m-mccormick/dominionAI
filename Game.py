@@ -29,7 +29,8 @@ class Game:
         self.kingdom   = Kingdom(self)
         self.players   = [Player(self) for n in range(n_players)]
         self.game_over = False
-        
+        self.active_player = None
+        self.final_scores  = None
         return None
     
     def play(self):
@@ -41,25 +42,29 @@ class Game:
             player_turn[idx] += 1
             self.game_over = self.kingdom.check_game_over()
             
-        final_points = list(map(lambda x: x.deck.points, self.players))
+        self.final_points = list(map(lambda x: x.deck.points, self.players))
         
     def print_play(self):        
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
         while not self.game_over:
-            idx, player = next(player_list)
+            idx, self.active_player = next(player_list)
             print("Player " + str(idx) + " takes xer turn:")
-            player.take_turn()
+            self.active_player.take_turn()
             player_turn[idx] += 1
             self.game_over = self.kingdom.check_game_over()
             
-        final_points = list(map(lambda x: x.deck.points, self.players))
+        self.final_points = list(map(lambda x: x.deck.points, self.players))
         print('Final decks:')
         for i in range(self.n_players):
             idx, player = next(player_list)
             print('player ' + str(idx) + 's deck:')
             print(player.deck.names())
         print("Final scores:")
-        print(list(enumerate(final_points)))
+        print(list(enumerate(self.final_points)))
         
         return None
+    
+    def get_final_scores(self):
+        assert self.game_over, "play the game first!"
+        return self.final_points

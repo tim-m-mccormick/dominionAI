@@ -10,7 +10,7 @@ keeps track of hand stats (total buy points, number of action cards, etc)
 
 can be used for discard pile, draw pile, hand, deck, and kingdom stacks
 
-@author: blenderherad
+@author: blenderhead, tim-m-mccormick
 """
 
 ## fill this in when Card class is implemented
@@ -51,6 +51,9 @@ class Stack:
     
     def names(self):
         return [card.name for card in self.cards]
+    
+    def card_count(self, card_name):
+        return cards.count(card_name)
 
 # Hand subclass keeps track of total coin value when updated     
 class Hand(Stack):

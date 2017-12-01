@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from Game import Game
 """
 Created on Fri Dec  1 10:50:40 2017
 
@@ -107,7 +108,9 @@ class Card:
             pass
         elif card == 'Smithy':
             self.cost = 4
-            self.new_cards = 3
+            def card_action():
+                game.active_player.draw(3)
+                return None
         elif card == 'Spy':
             pass
         elif card == 'Thief':

@@ -39,3 +39,8 @@ class BigMoney(Strategy):
             player.buy('Gold')
         else:
             player.buy('Province')
+            
+#class BigMoneySmithy(Strategy):
+    
+#    def action_phase(self, player):
+#        if player.hand.

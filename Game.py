@@ -38,8 +38,8 @@ class Game:
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
         while not self.game_over:
-            idx, player = next(player_list)
-            player.take_turn()
+            idx, self.active_player = next(player_list)
+            self.active_player.take_turn()
             player_turn[idx] += 1
             self.game_over = self.kingdom.check_game_over()
             

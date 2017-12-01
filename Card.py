@@ -2,7 +2,7 @@
 """
 Created on Fri Dec  1 10:50:40 2017
 
-@author: @tim-m-mccormick
+@author: blenderhead, tim-m-mccormick
 """
 class Card:
     
@@ -16,6 +16,8 @@ class Card:
             self.money_card(self.name)
         elif card in ['Estate', 'Dutchy', 'Province', 'Colony']:
             self.victory_card(self.name)
+        elif card in ['Curse']:
+            self.curse_card(self.name)
 
     def money_card(self, card):
         #Check what type of card
@@ -50,3 +52,13 @@ class Card:
             self.points = 10
         else:
             print('victory_card() called with non-victory arguement')
+            
+    def curse_card(self, card):
+        if card == 'Curse':
+            self.cost = 0
+            self.points = -1
+        else:
+            print('curse_card() called with non-curse card')
+            
+    def base_set(self, card):
+        

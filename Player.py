@@ -21,7 +21,7 @@ methods:
     reshuffle():    shuffles discard pile into deck
     
 
-@author: blenderherad
+@author: blenderhead, tim-m-mccormick
 """
 class Player:
     

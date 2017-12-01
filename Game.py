@@ -8,7 +8,7 @@ Created on Thu Nov 30 22:03:50 2017
 
 Game of Dominion
 
-@author: blenderherad
+@author: blenderherad, tim-m-mccormick
 """
 class Game:
     
@@ -31,8 +31,19 @@ class Game:
         self.game_over = False
         
         return None
+    
+    def play(self):
+        player_list = cycle(enumerate(self.players))
+        player_turn = self.n_players*[0]
+        while not self.game_over:
+            idx, player = next(player_list)
+            player.take_turn()
+            player_turn[idx] += 1
+            self.game_over = self.kingdom.check_game_over()
+            
+        final_points = list(map(lambda x: x.deck.points, self.players))
         
-    def play(self):        
+    def print_play(self):        
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
         while not self.game_over:
@@ -43,6 +54,11 @@ class Game:
             self.game_over = self.kingdom.check_game_over()
             
         final_points = list(map(lambda x: x.deck.points, self.players))
+        print('Final decks:')
+        for i in range(self.n_players):
+            idx, player = next(player_list)
+            print('player ' + str(idx) + 's deck:')
+            print(player.deck.names())
         print("Final scores:")
         print(list(enumerate(final_points)))
         

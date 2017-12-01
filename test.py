@@ -2,7 +2,7 @@
 """
 Created on Fri Dec  1 09:22:12 2017
 
-@author: blenderherad
+@author: blenderhead, tim-m-mccormick
 """
 from Game import Game
 

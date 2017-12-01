@@ -21,6 +21,8 @@ class Strategy:
         
         return None
     
+    def action_phase(self, )
+    
 class BigMoney(Strategy):
     
     def action_phase(self, player):

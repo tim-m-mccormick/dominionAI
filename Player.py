@@ -33,9 +33,9 @@ class Player:
         self.kingdom = kingdom
         
         if strategy is None:
-            self.strategy = BigMoney(self, kingdom.stacks.keys)
+            self.strategy = BigMoney(self, kingdom.stacks.keys())
         else:
-            self.strategy = strategy(self, kingdom.stacks.keys)
+            self.strategy = strategy(self, kingdom.stacks.keys())
         
         initial_cards  = list(map(Card, 3*['Estate'] + 7*['Copper']))
         
@@ -59,7 +59,7 @@ class Player:
         return None
         
     # private method to draw n cards
-    def draw(self):
+    def draw(self, n):
 
         for i in range(n):
             if len(self.draw_pile) == 0:

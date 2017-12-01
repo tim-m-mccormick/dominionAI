@@ -74,3 +74,12 @@ class Card:
             pass
         elif card == 'Bureaucrat':
             pass
+        elif card == 'Cellar':
+            pass
+        elif card == 'Chancellor':
+            pass
+        elif card == 'Chapel':
+            pass
+        elif card == 'CouncilRoom':
+            pass
+        elif card == 

@@ -105,6 +105,36 @@ class BigMoneySmithy(Strategy):
                 player.buy('Gold')
             else:
                 player.buy('Province')
+                
+class BigMoneyMilitia(Strategy):
+    """
+    Simplest big money + militia card
+    Buys militia as soon as it has $4, then as BigMoney:
+        Buys the most valuable money card it can afford
+        Buys provinces as soon as it can afford them
+    """
+    def action_phase(self, player):
+        if player.hand.count('Militia') == 1:
+            player.play_action('Militia')
+            
+    def buy_phase(self, player):
+        
+        if player.deck.count('Militia') == 0:
+            if player.hand.coins <= 2:
+                pass
+            elif player.hand.coins <= 3:
+                player.buy('Silver')
+            else:
+                player.buy('Militia')
+        else: 
+            if player.hand.coins <= 2:
+                pass
+            elif player.hand.coins <= 5:
+                player.buy('Silver')
+            elif player.hand.coins <= 7:
+                player.buy('Gold')
+            else:
+                player.buy('Province')
             
 class BigMoneyXSmithy(Strategy):
     

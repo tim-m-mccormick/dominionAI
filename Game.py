@@ -25,6 +25,8 @@ class Game:
                           'Village',
                           'Woodcutter',
                           'Workshop']
+        else:
+            self.cards = cards
         self.verbose   = verbose
         self.n_players = n_players
         self.kingdom   = Kingdom(self)

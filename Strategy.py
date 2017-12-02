@@ -84,12 +84,12 @@ class BigMoneySmithy(Strategy):
         Buys provinces as soon as it can afford them
     """
     def action_phase(self, player):
-        if player.hand.card_count('Smithy') == 1:
-            player.play_action_card('Smithy')
+        if player.hand.count('Smithy') == 1:
+            player.play_action('Smithy')
             
     def buy_phase(self, player):
         
-        if player.deck.card_count('Smithy') == 0:
+        if player.deck.count('Smithy') == 0:
             if player.hand.coins <= 2:
                 player.buy('Copper')
             elif player.hand.coins <= 3:

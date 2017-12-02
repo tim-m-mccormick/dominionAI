@@ -33,9 +33,11 @@ class Game:
         self.active_player = None
         self.other_players = None
         self.final_scores  = None
+        self.final_turn    = None
         return None
     
     def _quiet_play(self):
+        """plays a game of Dominion with no printing"""
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
         while not self.game_over:
@@ -43,11 +45,14 @@ class Game:
             self.other_players = set(self.players)-set([self.active_player])
             self.active_player.take_turn()
             player_turn[idx] += 1
+            self.final_turn = player_turn[idx]
             self.game_over = self.kingdom.check_game_over()
+            
             
         self.final_points = list(map(lambda x: x.deck.points, self.players))
         
-    def _print_play(self):        
+    def _print_play(self):  
+        """plays a game of dominion with full output"""
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
         while not self.game_over:
@@ -58,7 +63,8 @@ class Game:
             print("Player " + str(idx) + " takes xer turn:")
             self.active_player.take_turn()
             player_turn[idx] += 1
-            self.game_over = self.kingdom.check_game_over()
+            self.final_turn = player_turn[idx]
+            self.game_over = self.kingdom.check_game_over() 
             
         self.final_points = list(map(lambda x: x.deck.points, self.players))
         print('Final decks:')
@@ -71,11 +77,18 @@ class Game:
         return None
     
     def play(self):
+        """plays a game of Dominion"""
         if self.verbose:
             self._print_play()
         else:
             self._quiet_play()
     
     def get_final_scores(self):
+        """get final scores of a game of Dominion"""
         assert self.game_over, "play the game first!"
         return self.final_points
+    
+    def get_final_turn(self):
+        """returns the final turn of the game"""
+        assert self.game_over, "play the game first!"
+        return self.final_turn

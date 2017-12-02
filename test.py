@@ -8,14 +8,15 @@ from Game import Game
 from Strategy import BigMoney, BigMoneySmithy, BigMoneyMilitia, BigMoneyXSmithy, VillageSmithy, VillageMilitia
 import numpy as np
 
-num_games = 1000
+num_games = 1
 avg_scores = np.array([0., 0.,0.])
 for i in range(num_games):
-    game = Game(n_players=3, strategy=[BigMoney, BigMoneySmithy, BigMoneyMilitia], verbose=False)
+    game = Game(n_players=3, strategy=[BigMoney, BigMoneySmithy, BigMoneyMilitia], verbose=True)
     game.play()
     avg_scores += game.get_final_scores()
     
 avg_scores /= num_games
 print("Average scores (BM, BM+S, BM+M):")
 print(avg_scores)
+print(game.get_final_turn())
     

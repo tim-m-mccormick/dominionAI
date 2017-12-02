@@ -14,8 +14,9 @@ class Strategy:
     """
     Virtual parent class for strategies
     """
-    def __init__(self, player, kingdom_cards):
+    def __init__(self, player, kingdom_cards, **kwargs):
         
+        self.kwargs = kwargs
         self.name = None
         return None
     
@@ -147,7 +148,7 @@ class BigMoneyXSmithy(Strategy):
     
     def buy_phase(self, player):
         # if four or five player.coins in hand and fewer than 3 smithies, buy a smithy
-        if player.coins in [4,5] and player.deck.count('Smithy') < 3:
+        if player.coins in [4,5] and player.deck.count('Smithy') < self.kwargs['n_Smithy']:
             player.buy('Smithy')
         # otherwise do big money
         elif player.coins <= 2:

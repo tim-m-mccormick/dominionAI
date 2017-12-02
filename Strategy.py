@@ -5,13 +5,15 @@ Created on Thu Nov 30 19:43:45 2017
 Strategy base class for Dominion
 including BigMoney subclass
 
-@author: blenderherad
+@author: blenderhead, tim-m-mccormick
 """
 
 class Strategy:
     
     name = None
-    
+    """
+    Virtual parent class for strategies
+    """
     def __init__(self, player, kingdom_cards):
         
         self.name = None
@@ -54,9 +56,12 @@ class Strategy:
         return discards
     
 class BigMoney(Strategy):
-    
+    """
+    Simplest possible big money strategy
+    Buys the most valuable money card it can afford
+    Buys provinces as soon as it can afford them
+    """
     name = "Big Money"
-    
     def action_phase(self, player):
         pass
     
@@ -70,6 +75,36 @@ class BigMoney(Strategy):
             player.buy('Gold')
         else:
             player.buy('Province')
+            
+class BigMoneySmithy(Strategy):
+    """
+    Simplest big money + smithy card
+    Buys smithy as soon as it has $4, then as BigMoney:
+        Buys the most valuable money card it can afford
+        Buys provinces as soon as it can afford them
+    """
+    def action_phase(self, player):
+        if player.hand.card_count('Smithy') == 1:
+            player.play_action_card('Smithy')
+            
+    def buy_phase(self, player):
+        
+        if player.deck.card_count('Smithy') == 0:
+            if player.hand.coins <= 2:
+                player.buy('Copper')
+            elif player.hand.coins <= 3:
+                player.buy('Silver')
+            else:
+                player.buy('Smithy')
+        else: 
+            if player.hand.coins <= 2:
+                player.buy('Copper')
+            elif player.hand.coins <= 5:
+                player.buy('Silver')
+            elif player.hand.coins <= 7:
+                player.buy('Gold')
+            else:
+                player.buy('Province')
             
 class BigMoneyXSmithy(Strategy):
     

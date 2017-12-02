@@ -145,4 +145,4 @@ class Player:
         self.actions -= 1
         card.card_action()
         return None
-        
+

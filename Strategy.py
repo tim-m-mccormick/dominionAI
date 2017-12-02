@@ -10,8 +10,11 @@ including BigMoney subclass
 
 class Strategy:
     
+    name = None
+    
     def __init__(self, player, kingdom_cards):
         
+        self.name = None
         return None
     
     def take_turn(self, player):
@@ -25,6 +28,8 @@ class Strategy:
         pass
     
 class BigMoney(Strategy):
+    
+    name = "Big Money"
     
     def action_phase(self, player):
         pass
@@ -40,7 +45,25 @@ class BigMoney(Strategy):
         else:
             player.buy('Province')
             
-#class BigMoneySmithy(Strategy):
+class BigMoneySmithy(Strategy):
     
-#    def action_phase(self, player):
-#        if player.hand.
+    name = "Big Money + Smithy"
+    
+    def action_phase(self, player):
+        if 'Smithy' in player.hand.names():
+            player.play_action('Smithy')
+        return None
+    
+    def buy_phase(self, player):
+        # if four or five coins in hand and fewer than 3 smithies, buy a smithy
+        if player.hand.coins in [4,5] and player.deck.count('Smithy') < 3:
+            player.buy('Smithy')
+        # otherwise do big money
+        elif player.hand.coins <= 2:
+            player.buy('Copper')
+        elif player.hand.coins <= 5:
+            player.buy('Silver')
+        elif player.hand.coins <= 7:
+            player.buy('Gold')
+        else:
+            player.buy('Province')

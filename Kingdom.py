@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Stack import Stack
 from Card import Card
+from numpy import concatenate
 """
 Created on Thu Nov 30 21:13:42 2017
 
@@ -48,4 +49,16 @@ class Kingdom:
         ## need to implement 3-empty rule here once we go beyond BigMoney
         else:
             return False
+    
+    def display(self):
+        print(75*'-')
+        print("K I N G D O M".center(75))
+        print(75*'-')
+        fmt = "%10s(%2s) "
+        print(3*fmt % tuple(concatenate([[x, self.stacks[x].size()] for x in ['Copper', 'Silver', 'Gold']])))
+        print(4*fmt % tuple(concatenate([[x, self.stacks[x].size()] for x in ['Estate', 'Duchy', 'Province', 'Curse']])))
+        print(5*fmt % tuple(concatenate([[x, self.stacks[x].size()] for x in list(self.stacks.keys())[7:12]])))
+        print(5*fmt % tuple(concatenate([[x, self.stacks[x].size()] for x in list(self.stacks.keys())[12:]])))
+
+        return None
         

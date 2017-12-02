@@ -94,15 +94,17 @@ class Player:
         
         self.actions = 1
         self.buys    = 1
-        self.strategy.take_turn(self) # magic happens here        
+        self.in_play = Stack(cards=[])
+        self.strategy.take_turn(self) # magic happens here
         self.cleanup()
     
     def cleanup(self):
         
+        if self.in_play.size() > 0:
+            self.discard_pile.extend(self.in_play.pop_all())
         self.discard(self.hand.size())
         self.draw(5)
-        
-        ## how to interface with Kingdom and Game instance?
+       
     def buy(self, card):
         if self.game.verbose:
             print("   has hand: ", self.hand.names())
@@ -110,5 +112,17 @@ class Player:
         popped = self.game.kingdom.pop(card)
         self.discard_pile.extend([popped])
         self.deck.extend([popped])
+        return None
+    
+    def play_action(self, card_name):
+        assert card_name in self.hand.names(), "Playing a card you don't have? Cheater!"
+        card = self.hand.first(card_name)
+        if self.game.verbose:
+            print("   has hand: ", self.hand.names())
+            print("   plays " + card_name)
+        self.hand.remove(card)
+        self.in_play.append(card)
+        self.actions -= 1
+        card.card_action()
         return None
         

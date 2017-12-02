@@ -12,7 +12,7 @@ Game of Dominion
 """
 class Game:
     
-    def __init__(self, n_players=2, cards=None, verbose=True):
+    def __init__(self, n_players=2, strategy=[], cards=None, verbose=True):
         if cards == None:            
             # if no provided cards, create "First Game"
             self.cards = ['Cellar',
@@ -28,7 +28,7 @@ class Game:
         self.verbose   = verbose
         self.n_players = n_players
         self.kingdom   = Kingdom(self)
-        self.players   = [Player(self) for n in range(n_players)]
+        self.players   = [Player(self, strategy[n]) for n in range(n_players)]
         self.game_over = False
         self.active_player = None
         self.final_scores  = None
@@ -58,9 +58,8 @@ class Game:
         self.final_points = list(map(lambda x: x.deck.points, self.players))
         print('Final decks:')
         for i in range(self.n_players):
-            idx, player = next(player_list)
-            print('player ' + str(idx) + 's deck:')
-            print(player.deck.names())
+            print('player ' + str(i) + 's deck:')
+            print(self.players[i].deck.names())
         print("Final scores:")
         print(list(enumerate(self.final_points)))
         

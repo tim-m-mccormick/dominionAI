@@ -107,6 +107,7 @@ class Card:
             def card_action():
                 self.game.active_player.coins += 2
                 self.game.active_player.others_discard_to(3)
+            return card_action
         elif card == 'Mine':
             pass
         elif card == 'Moat':

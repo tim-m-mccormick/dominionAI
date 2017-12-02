@@ -28,6 +28,14 @@ class Strategy:
     def action_phase(self):
         pass
     
+    def discard(self, n):
+        discards = []
+        while len(discards) < n:
+            for card in player.hand.cards:
+                if card.type == 'Victory'
+                    discards += [card]
+                    break
+    
 class BigMoney(Strategy):
     
     name = "Big Money"
@@ -46,7 +54,7 @@ class BigMoney(Strategy):
         else:
             player.buy('Province')
             
-class BigMoneySmithy(Strategy):
+class BigMoneyXSmithy(Strategy):
     
     name = "Big Money + Smithy"
     
@@ -87,6 +95,36 @@ class VillageSmithy(Strategy):
         # First aims to get 5 village and 3 smithy "engine"
         if player.coins in [4,5] and player.deck.count('Smithy') < 3:
             player.buy('Smithy')
+        elif player.coins == 3 and player.deck.count('Village') < 5:
+            player.buy('Village')
+        # then just buys money and provinces
+        elif player.coins <= 2:
+            player.buy('Copper')
+        elif player.coins <= 5:
+            player.buy('Silver')
+        elif player.coins <= 7:
+            player.buy('Gold')
+        else:
+            player.buy('Province')
+            
+class VillageMilitia(Strategy):
+    
+    name = "Village/Smithy Engine"
+    
+    def action_phase(self, player):        
+        while player.actions > 0:
+            if 'Village' in player.hand.names():
+                player.play_action('Village')
+            elif 'Militia' in player.hand.names():
+                player.play_action('Militia')
+            else:
+                break
+        return None
+    
+    def buy_phase(self, player):
+        # First aims to get 5 village and 3 militia
+        if player.coins in [4,5] and player.deck.count('Militia') < 3:
+            player.buy('Militia')
         elif player.coins == 3 and player.deck.count('Village') < 5:
             player.buy('Village')
         # then just buys money and provinces

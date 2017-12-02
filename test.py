@@ -8,10 +8,10 @@ from Game import Game
 from Strategy import BigMoney, BigMoneySmithy, VillageSmithy
 import numpy as np
 
-num_games = 100
+num_games = 1000
 avg_scores = np.array([0., 0., 0.])
 for i in range(num_games):
-    game = Game(n_players=3, strategy=[BigMoney, BigMoneySmithy, VillageSmithy], verbose=True)
+    game = Game(n_players=3, strategy=[BigMoney, BigMoneySmithy, VillageSmithy], verbose=False)
     game.play()
     avg_scores += game.get_final_scores()
     

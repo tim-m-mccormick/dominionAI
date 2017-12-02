@@ -31,6 +31,7 @@ class Game:
         self.players   = [Player(self, strategy[n]) for n in range(n_players)]
         self.game_over = False
         self.active_player = None
+        self.other_players = None
         self.final_scores  = None
         return None
     
@@ -39,6 +40,7 @@ class Game:
         player_turn = self.n_players*[0]
         while not self.game_over:
             idx, self.active_player = next(player_list)
+            self.other_players = set(self.players)-set([self.active_player])
             self.active_player.take_turn()
             player_turn[idx] += 1
             self.game_over = self.kingdom.check_game_over()
@@ -50,6 +52,7 @@ class Game:
         player_turn = self.n_players*[0]
         while not self.game_over:
             idx, self.active_player = next(player_list)
+            self.other_players = set(self.players)-set([self.active_player])
             print("Player " + str(idx) + " takes xer turn:")
             self.active_player.take_turn()
             player_turn[idx] += 1

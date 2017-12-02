@@ -20,6 +20,7 @@ class Strategy:
     def take_turn(self, player):
         
         self.action_phase(player)
+        player.coins += player.hand.coins # bonus coins from actions plus money
         self.buy_phase(player)
         
         return None
@@ -35,12 +36,12 @@ class BigMoney(Strategy):
         pass
     
     def buy_phase(self, player):
-        
-        if player.hand.coins <= 2:
+
+        if player.coins <= 2:
             player.buy('Copper')
-        elif player.hand.coins <= 5:
+        elif player.coins <= 5:
             player.buy('Silver')
-        elif player.hand.coins <= 7:
+        elif player.coins <= 7:
             player.buy('Gold')
         else:
             player.buy('Province')
@@ -55,15 +56,15 @@ class BigMoneySmithy(Strategy):
         return None
     
     def buy_phase(self, player):
-        # if four or five coins in hand and fewer than 3 smithies, buy a smithy
-        if player.hand.coins in [4,5] and player.deck.count('Smithy') < 3:
+        # if four or five player.coins in hand and fewer than 3 smithies, buy a smithy
+        if player.coins in [4,5] and player.deck.count('Smithy') < 3:
             player.buy('Smithy')
         # otherwise do big money
-        elif player.hand.coins <= 2:
+        elif player.coins <= 2:
             player.buy('Copper')
-        elif player.hand.coins <= 5:
+        elif player.coins <= 5:
             player.buy('Silver')
-        elif player.hand.coins <= 7:
+        elif player.coins <= 7:
             player.buy('Gold')
         else:
             player.buy('Province')
@@ -84,16 +85,16 @@ class VillageSmithy(Strategy):
     
     def buy_phase(self, player):
         # First aims to get 5 village and 3 smithy "engine"
-        if player.hand.coins in [4,5] and player.deck.count('Smithy') < 3:
+        if player.coins in [4,5] and player.deck.count('Smithy') < 3:
             player.buy('Smithy')
-        elif player.hand.coins == 3 and player.deck.count('Village') < 5:
+        elif player.coins == 3 and player.deck.count('Village') < 5:
             player.buy('Village')
         # then just buys money and provinces
-        elif player.hand.coins <= 2:
+        elif player.coins <= 2:
             player.buy('Copper')
-        elif player.hand.coins <= 5:
+        elif player.coins <= 5:
             player.buy('Silver')
-        elif player.hand.coins <= 7:
+        elif player.coins <= 7:
             player.buy('Gold')
         else:
             player.buy('Province')

@@ -103,7 +103,10 @@ class Card:
         elif card == 'Market':
             pass
         elif card == 'Militia':
-            pass
+            self.cost = 4
+            def card_action():
+                self.game.active_player.coins += 2
+                self.game.active_player.others_discard_to(3)
         elif card == 'Mine':
             pass
         elif card == 'Moat':

@@ -3,6 +3,7 @@
 from Strategy import Strategy, BigMoney
 from Stack    import Stack, Hand, Deck
 from Card     import Card
+
 """
 Created on Thu Nov 30 13:14:45 2017
 
@@ -92,6 +93,16 @@ class Player:
         self.discard(self.hand.size()-n)
         return None
     
+    def others_discard_to(self, n):
+        for p in self.game.other_players:
+            p.discard_to(n)
+        return None
+    
+    def others_discard(self, n):
+        for p in self.game.other_players:
+            p.discard(n)
+        return None
+    
     def trash(self, card):
         
         return None # not used yet
@@ -99,8 +110,9 @@ class Player:
     # take turn by passing self to self's strategy, which calls play_action(), buy() and cleanup()
     def take_turn(self):
         
-        self.actions = 1
-        self.buys    = 1
+        self.actions     = 1
+        self.buys        = 1
+        self.coins       = 0
         self.in_play = Stack(cards=[])
         self.strategy.take_turn(self) # magic happens here
         self.cleanup()
@@ -119,6 +131,7 @@ class Player:
         popped = self.game.kingdom.pop(card)
         self.discard_pile.extend([popped])
         self.deck.extend([popped])
+        self.coins -= popped.cost
         return None
     
     def play_action(self, card_name):

@@ -52,6 +52,8 @@ class Game:
         player_turn = self.n_players*[0]
         while not self.game_over:
             idx, self.active_player = next(player_list)
+            if idx == 0:
+                print('Begin turn ' + str(player_turn[0]+1))
             self.other_players = set(self.players)-set([self.active_player])
             print("Player " + str(idx) + " takes xer turn:")
             self.active_player.take_turn()

@@ -68,7 +68,7 @@ class BigMoney(Strategy):
     def buy_phase(self, player):
 
         if player.coins <= 2:
-            player.buy('Copper')
+            pass
         elif player.coins <= 5:
             player.buy('Silver')
         elif player.coins <= 7:
@@ -91,14 +91,14 @@ class BigMoneySmithy(Strategy):
         
         if player.deck.count('Smithy') == 0:
             if player.hand.coins <= 2:
-                player.buy('Copper')
+                pass
             elif player.hand.coins <= 3:
                 player.buy('Silver')
             else:
                 player.buy('Smithy')
         else: 
             if player.hand.coins <= 2:
-                player.buy('Copper')
+                pass
             elif player.hand.coins <= 5:
                 player.buy('Silver')
             elif player.hand.coins <= 7:
@@ -121,7 +121,7 @@ class BigMoneyXSmithy(Strategy):
             player.buy('Smithy')
         # otherwise do big money
         elif player.coins <= 2:
-            player.buy('Copper')
+            pass
         elif player.coins <= 5:
             player.buy('Silver')
         elif player.coins <= 7:
@@ -151,7 +151,7 @@ class VillageSmithy(Strategy):
             player.buy('Village')
         # then just buys money and provinces
         elif player.coins <= 2:
-            player.buy('Copper')
+            pass
         elif player.coins <= 5:
             player.buy('Silver')
         elif player.coins <= 7:
@@ -181,7 +181,7 @@ class VillageMilitia(Strategy):
             player.buy('Village')
         # then just buys money and provinces
         elif player.coins <= 2:
-            player.buy('Copper')
+            pass
         elif player.coins <= 5:
             player.buy('Silver')
         elif player.coins <= 7:

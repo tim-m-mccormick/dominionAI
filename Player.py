@@ -48,6 +48,8 @@ class Player:
     # private method to reshuffle     
     def reshuffle(self):
         
+        if self.game.verbose:
+            print("   reshuffles")
         self.draw_pile = Stack(cards=self.discard_pile.cards)
         self.discard_pile = Stack(cards=[])
         self.draw_pile.shuffle()
@@ -59,7 +61,12 @@ class Player:
 
         for i in range(n):
             if self.draw_pile.size() == 0:
-                self.reshuffle()    
+                if self.discard_pile.size() > 0 :
+                    self.reshuffle()
+                else:
+                    if self.game.verbose:
+                        print("   has exhausted deck")
+                    return None
             self.hand.extend([self.draw_pile.pop()])
 
         #print(self.hand.names())

@@ -67,3 +67,33 @@ class BigMoneySmithy(Strategy):
             player.buy('Gold')
         else:
             player.buy('Province')
+
+class VillageSmithy(Strategy):
+    
+    name = "Village/Smithy Engine"
+    
+    def action_phase(self, player):        
+        while player.actions > 0:
+            if 'Village' in player.hand.names():
+                player.play_action('Village')
+            elif 'Smithy' in player.hand.names():
+                player.play_action('Smithy')
+            else:
+                break
+        return None
+    
+    def buy_phase(self, player):
+        # First aims to get 5 village and 3 smithy "engine"
+        if player.hand.coins in [4,5] and player.deck.count('Smithy') < 3:
+            player.buy('Smithy')
+        elif player.hand.coins == 3 and player.deck.count('Village') < 5:
+            player.buy('Village')
+        # then just buys money and provinces
+        elif player.hand.coins <= 2:
+            player.buy('Copper')
+        elif player.hand.coins <= 5:
+            player.buy('Silver')
+        elif player.hand.coins <= 7:
+            player.buy('Gold')
+        else:
+            player.buy('Province')

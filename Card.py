@@ -125,7 +125,12 @@ class Card:
         elif card == 'ThroneRoom':
             pass
         elif card == 'Village':
-            pass
+            self.cost = 3
+            def card_action():
+                self.game.active_player.actions += 2
+                self.game.active_player.draw(1)
+                return None
+            return card_action
         elif card == 'Witch':
             pass
         elif card == 'Woodcutter':

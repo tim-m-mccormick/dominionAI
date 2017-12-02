@@ -81,7 +81,7 @@ class Player:
 #            print(discards)
 #            print(self.hand.cards)
         else:
-            self.discards = tuple(self.strategy.discard(n)) # this should not happen yet
+            self.discards = tuple(self.strategy.discard(self, n)) # this should not happen yet
                    
         for c in self.discards: 
             self.hand.remove(c)

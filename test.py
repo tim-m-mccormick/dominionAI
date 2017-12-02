@@ -5,7 +5,7 @@ Created on Fri Dec  1 09:22:12 2017
 @author: blenderhead, tim-m-mccormick
 """
 from Game import Game
-from Strategy import BigMoney, BigMoneySmithy, VillageSmithy, VillageMilitia
+from Strategy import BigMoney, BigMoneyXSmithy, VillageSmithy, VillageMilitia
 import numpy as np
 
 num_games = 1

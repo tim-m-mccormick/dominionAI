@@ -30,7 +30,7 @@ class Card:
                       'ThroneRoom', 'Village', 'Witch', 'Woodcutter', 'Workshop']:
             # self.card_action is a function returned by the base_game_card function
             # this should dynamically handle different numbers of arguments
-            self.card_action = self.base_game_card(card) 
+            self.card_action = self.base_game_card(card)
             
 
     def money_card(self, card):
@@ -104,6 +104,7 @@ class Card:
             pass
         elif card == 'Militia':
             self.cost = 4
+            self.terminal_action = True
             def card_action():
                 self.game.active_player.coins += 2
                 self.game.active_player.others_discard_to(3)
@@ -118,6 +119,7 @@ class Card:
             pass
         elif card == 'Smithy':
             self.cost = 4
+            self.terminal_action = True
             def card_action():
                 self.game.active_player.draw(3)
                 return None
@@ -130,6 +132,7 @@ class Card:
             pass
         elif card == 'Village':
             self.cost = 3
+            self.terminal_action = False
             def card_action():
                 self.game.active_player.actions += 2
                 self.game.active_player.draw(1)

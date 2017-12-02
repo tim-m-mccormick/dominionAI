@@ -28,13 +28,30 @@ class Strategy:
     def action_phase(self):
         pass
     
-    def discard(self, n):
+    def discard(self, player, n):
         discards = []
         while len(discards) < n:
             for card in player.hand.cards:
-                if card.type == 'Victory'
+                if card.type == 'Victory' and card not in discards:
                     discards += [card]
                     break
+                elif card.name == 'Copper' and card not in discards:
+                    discards += [card]
+                    break
+                elif card.name == 'Silver' and card not in discards:
+                    discards += [card]
+                    break
+                elif card.type == 'Action' and card.terminal_action and card not in discards:
+                    discards += [card]
+                    break
+                elif card.type == 'Action' and not card.terminal_action and card not in discards:
+                    discards += [card]
+                    break
+                elif card.name == 'Gold' and card not in discards:
+                    discards += [card]
+                    break
+
+        return discards
     
 class BigMoney(Strategy):
     

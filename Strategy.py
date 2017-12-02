@@ -138,6 +138,10 @@ class BigMoneyMilitia(Strategy):
                 player.buy('Province')
             
 class BigMoneyXSmithy(Strategy):
+    """
+        KEYWORD ARGUMENTS:
+            n_Smithy = maximum number of Smithies to buy
+    """
     
     name = "Big Money + Smithy"
     
@@ -161,7 +165,11 @@ class BigMoneyXSmithy(Strategy):
             player.buy('Province')
 
 class VillageSmithy(Strategy):
-    
+    """
+        KEYWORD ARGUMENTS:
+            n_Smithy  = maximum number of Smithies to buy
+            n_Village = maximum number of Villages to buy
+    """
     name = "Village/Smithy Engine"
     
     def action_phase(self, player):        
@@ -176,9 +184,9 @@ class VillageSmithy(Strategy):
     
     def buy_phase(self, player):
         # First aims to get 5 village and 3 smithy "engine"
-        if player.coins in [4,5] and player.deck.count('Smithy') < 3:
+        if player.coins in [4,5] and player.deck.count('Smithy') < self.kwargs['n_Smithy']:
             player.buy('Smithy')
-        elif player.coins == 3 and player.deck.count('Village') < 5:
+        elif player.coins == 3 and player.deck.count('Village') < self.kwargs['n_Village']:
             player.buy('Village')
         # then just buys money and provinces
         elif player.coins <= 2:
@@ -191,7 +199,11 @@ class VillageSmithy(Strategy):
             player.buy('Province')
             
 class VillageMilitia(Strategy):
-    
+    """
+        KEYWORD ARGUMENTS:
+            n_Militia = maximum number of Militias to buy
+            n_Village = maximum number of Villages to buy
+    """    
     name = "Village/Smithy Engine"
     
     def action_phase(self, player):        
@@ -206,9 +218,9 @@ class VillageMilitia(Strategy):
     
     def buy_phase(self, player):
         # First aims to get 5 village and 3 militia
-        if player.coins in [4,5] and player.deck.count('Militia') < 3:
+        if player.coins in [4,5] and player.deck.count('Militia') < self.kwargs['n_Militia']:
             player.buy('Militia')
-        elif player.coins == 3 and player.deck.count('Village') < 5:
+        elif player.coins == 3 and player.deck.count('Village') < self.kwargs['n_Village']:
             player.buy('Village')
         # then just buys money and provinces
         elif player.coins <= 2:

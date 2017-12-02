@@ -8,21 +8,38 @@ from Game import Game
 from Strategy import BigMoney, BigMoneySmithy, BigMoneyMilitia, BigMoneyXSmithy, VillageSmithy, VillageMilitia
 import numpy as np
 from time import time
-
-num_games = 1
+import matplotlib.pylab as plt
+num_games = 2000
 avg_scores = np.array([0., 0.])
 ti = time()
-for i in range(num_games):
-    game = Game(n_players=2, 
-                strategy=[VillageMilitia, BigMoneyXSmithy], 
-                options=[{'n_Militia':3, 'n_Village':5}, {'n_Smithy':1}], 
-                verbose=True)
-    game.play()
-    avg_scores += game.get_final_scores()
+scores = []
+smithies=range(0,9)
+for x in smithies:
+    for i in range(num_games):
+        game = Game(n_players=2, 
+                    strategy=[BigMoney, BigMoneyXSmithy], 
+                    options=[{}, {'n_Smithy':x}], 
+                    verbose=False)
+        game.play()
+        avg_scores += game.get_final_scores()
 
+    avg_scores /= num_games
+    scores.append(list(avg_scores))
 tf = time()
-avg_scores /= num_games
 print("Average scores (V+M, BM+S):")
 print(avg_scores)
 print("Runtime = " + str(tf-ti) + " seconds")
+
+fig = plt.figure(figsize=(8,6), dpi=100)
+ax = fig.add_subplot(111)
+
+ax.set_xlabel('Max. number of Smithies')
+ax.set_ylabel('Avg. Score (' + str(num_games) + ' games)')
+
+plt.plot(smithies,np.array(scores)[:,0], label='BM')
+plt.plot(smithies,np.array(scores)[:,1], label='BM+S')
+plt.legend()
+
+
+plt.show()
     

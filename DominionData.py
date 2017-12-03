@@ -47,8 +47,8 @@ class DominionData:
         self.players   = [Player(self, strategy[n]) for n in range(n_players)]
         
         #Some individual quantities
-        self.ind_scores = np.ndarray(shape=(self.n_games,self.n_players), dtype = int)
-        self.ind_turns  = np.ndarray(shape=(self.n_games), dtype = int)
+        self.ind_scores = []
+        self.ind_turns  = []
         
         #Some average quantities
         self.avg_scores = n_players*[0]
@@ -64,8 +64,8 @@ class DominionData:
         for i in range(self.n_games):
             game = Game(n_players=2, strategy=self.strats, cards=self.cards, verbose=False)
             game.play()
-            self.ind_scores[i] = game.get_final_scores()
-            self.ind_turns[i]  = game.get_final_turn()
+            self.ind_scores[i] = += game.get_final_scores()
+            self.ind_turns[i]  = +=game.get_final_turn()
             
             self.avg_scores += game.get_final_scores()
             

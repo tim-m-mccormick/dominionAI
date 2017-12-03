@@ -12,7 +12,7 @@ Game of Dominion
 """
 class Game:
     
-    def __init__(self, n_players=2, strategy=[], cards=None, verbose=True):
+    def __init__(self, n_players=2, strategy=[], options=[], cards=None, verbose=True):
         if cards == None:            
             # if no provided cards, create "First Game"
             self.cards = ['Cellar',
@@ -30,7 +30,7 @@ class Game:
         self.verbose   = verbose
         self.n_players = n_players
         self.kingdom   = Kingdom(self)
-        self.players   = [Player(self, strategy[n]) for n in range(n_players)]
+        self.players   = [Player(self, strategy[n], **options[n]) for n in range(n_players)]
         self.game_over = False
         self.active_player = None
         self.other_players = None

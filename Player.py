@@ -96,6 +96,11 @@ class Player:
         self.discard(self.hand.size()-n)
         return None
     
+    def others_draw(self, n):
+        for p in self.game.other_players:
+            p.draw(n)
+        return None
+    
     def others_discard_to(self, n):
         for p in self.game.other_players:
             p.discard_to(n)

@@ -26,6 +26,6 @@ for d_buy in [1,2,3,4,5,6]:
                             cards=None,n_games=games)
         data.run_simulation()
         
-        results += [d_buy, e_buy, data.avg_scores]
+        results += [d_buy, e_buy, data.avg_scores[1]-data.avg_scores[0]]
         
 print(results)

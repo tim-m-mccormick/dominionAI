@@ -89,22 +89,42 @@ class Card:
         elif card == 'Chapel':
             pass
         elif card == 'CouncilRoom':
-            pass
+            self.cost = 5
+            self.terminal_action = True
+            def card_action():
+                self.game.active_player.draw(4)
+                self.game.active_player.buys += 1
+                self.game.active_player.others_draw(1)
+            return 
         elif card == 'Feast':
             pass
         elif card == 'Festival':
-            pass
+            self.cost = 5
+            self.terminal_action = False
+            def card_action():
+                self.game.active_player.actions += 2
+                self.game.active_player.buys += 1
+                self.game.active_player.coins += 2
+            return card_action
         elif card == 'Gardens':
             pass
         elif card == 'Laboratory':
-            pass
+            self.cost = 5
+            self.terminal_action = False
+            def card_action():
+                self.game.active_player.draw(2)
+                self.game.active_player.actions += 1
+            return card_action
         elif card == 'Library':
             pass
         elif card == 'Market':
             self.cost = 5
             self.terminal_action = False
             def card_action():
-                pass
+                self.game.active_player.draw(1)
+                self.game.active_player.actions += 1
+                self.game.active_player.coins += 1
+                self.game.active_player.buys += 1
             return card_action
         elif card == 'Militia':
             self.cost = 4
@@ -145,10 +165,13 @@ class Card:
         elif card == 'Witch':
             pass
         elif card == 'Woodcutter':
-            pass
+            self.cost = 3
+            self.terminal_action = True
+            def card_action():
+                self.game.active_player.buys += 1
+                self.game.active_player.coins += 2
+            return card_action
         elif card == 'Workshop':
-            pass
-        elif card == 'CouncilRoom':
             pass
         else:
             print('card not found in base game!')

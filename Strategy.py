@@ -76,6 +76,8 @@ class Strategy:
                     break
 
         return discards
+
+###############################################################################
     
 class BigMoney(Strategy):
     """
@@ -97,6 +99,8 @@ class BigMoney(Strategy):
             player.buy('Gold')
         else:
             player.buy('Province')
+
+###############################################################################
 
 class BigMoney_SP(Strategy):
     """
@@ -153,6 +157,8 @@ class BigMoney_SP(Strategy):
                 player.buy('Gold')
             else:
                 player.buy('Province')
+
+###############################################################################
          
 class BigMoneySmithy(Strategy):
     """
@@ -185,6 +191,8 @@ class BigMoneySmithy(Strategy):
             else:
                 player.buy('Province')
                 
+###############################################################################
+                
 class BigMoneyMilitia(Strategy):
     """
     Simplest big money + militia card
@@ -215,6 +223,8 @@ class BigMoneyMilitia(Strategy):
                 player.buy('Gold')
             else:
                 player.buy('Province')
+
+###############################################################################
             
 class BigMoneyXSmithy(Strategy):
     """
@@ -243,6 +253,39 @@ class BigMoneyXSmithy(Strategy):
             player.buy('Gold')
         else:
             player.buy('Province')
+
+###############################################################################
+
+class BigMoneyXCard(Strategy):
+    """
+    allows for an adjustable MAXIMUM number of given single card for the player to buy.
+    there is no guarantee that this number of smithies will be bought, but if
+    the player has 4 or 5 coins and less than the provided number, xe will buy
+        KEYWORD ARGUMENTS:
+            n_Card = maximum number of CARD to buy
+            card_name = string correponding to card to buy
+    """
+    def action_phase(self, player):
+        if self.kwargs['card_name'] in player.hand.names():
+            player.play_action(self.kwargs['card_name'])
+        return None
+    
+    #NEED TO DECIDE WHEN TO BUY CARD
+    def buy_phase(self, player):
+        # if four or five player.coins in hand and fewer than 3 smithies, buy a smithy
+        if player.coins in [] and player.deck.count(self.kwargs['card_name']) < self.kwargs['n_Card']:
+            player.buy(self.kwargs['card_name'])
+        # otherwise do big money
+        elif player.coins <= 2:
+            pass
+        elif player.coins <= 5:
+            player.buy('Silver')
+        elif player.coins <= 7:
+            player.buy('Gold')
+        else:
+            player.buy('Province')
+
+###############################################################################
 
 class VillageSmithy(Strategy):
     """
@@ -278,6 +321,8 @@ class VillageSmithy(Strategy):
             player.buy('Gold')
         else:
             player.buy('Province')
+
+###############################################################################
             
 class VillageMilitia(Strategy):
     """

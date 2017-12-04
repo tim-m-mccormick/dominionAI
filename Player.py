@@ -27,7 +27,7 @@ methods:
 class Player:
     
     # constructor used to create a new player at the beginning of a Game
-    def __init__(self, game, strategy=None):
+    def __init__(self, game, strategy=None, **kwargs):
         
         # kingdom is passed to each Player
         # and gets modified during buy()
@@ -35,7 +35,7 @@ class Player:
         if strategy is None:
             self.strategy = BigMoney(self, self.game.kingdom.stacks.keys())
         else:
-            self.strategy = strategy(self, self.game.kingdom.stacks.keys())
+            self.strategy = strategy(self, self.game.kingdom.stacks.keys(), **kwargs)
         
         self.discard_pile = Stack(cards = list(map(lambda x: Card(x, self.game),7*['Copper'] + 3*['Estate'])))
         self.draw_pile = Stack(cards=[])

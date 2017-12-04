@@ -62,10 +62,12 @@ class Game:
         player_list = cycle(enumerate(self.players))
         player_turn = dict([[x, 0] for x in self.names])
         
+        turn_counter = 0
         while not self.game_over:
             idx, self.active_player = next(player_list)
             if idx == 0:
-                print('Begin turn ' + str(player_turn[0]+1))
+                print('Begin turn ' + str(turn_counter+1))
+                turn_counter += 1
             self.other_players = set(self.players)-set([self.active_player])
             print("Player " + str(idx) + " takes xer turn:")
             self.active_player.take_turn()

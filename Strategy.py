@@ -142,6 +142,9 @@ class BigMoney_SP(Strategy):
                 player.buy('Estate')
             else:
                 player.buy('Province')
+                
+        else:
+            print('Uh oh! Did not buy anything!')
          
 class BigMoneySmithy(Strategy):
     """

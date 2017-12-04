@@ -101,7 +101,11 @@ class Card:
         elif card == 'Library':
             pass
         elif card == 'Market':
-            pass
+            self.cost = 5
+            self.terminal_action = False
+            def card_action():
+                pass
+            return card_action
         elif card == 'Militia':
             self.cost = 4
             self.terminal_action = True

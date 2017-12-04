@@ -31,6 +31,7 @@ class Game:
         self.n_players = n_players
         self.kingdom   = Kingdom(self)
         self.players   = [Player(self, strategy[n], **options[n]) for n in range(n_players)]
+        #self.players   = [Player(self, strategy[n]) for n in range(n_players)]
         self.game_over = False
         self.active_player = None
         self.other_players = None

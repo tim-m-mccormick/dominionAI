@@ -19,11 +19,14 @@ class DominionData:
     """
     Statistics package for evaluating dominion strategies
     """
-    def __init__(self,num_players=2, strategy=[BigMoney,BigMoneySmithy], cards=None, n_games = 1):
+    def __init__(self,num_players=2, 
+                 strategy=[BigMoney,BigMoneySmithy], 
+                 options = [{},{}], cards=None, n_games = 1):
         """constructor for DominionData"""
         self.verbose = False
         self.n_players = num_players
         self.strats = strategy
+        self.options = options
         if len(self.strats) != self.n_players:
             print('Need a number of strategies equal to number of players!')
             
@@ -42,7 +45,8 @@ class DominionData:
                           'Workshop']
         
         #we need a default game to call to kingdom
-        self.def_game  = Game(n_players=2, strategy=self.strats, cards=self.cards, verbose=False)
+        self.def_game  = Game(n_players=2, strategy=self.strats,
+                              options = self.options, cards=self.cards, verbose=False)
         self.kingdom   = Kingdom(self.def_game)
         self.players   = [Player(self, self.strats[n]) for n in range(self.n_players)]
         
@@ -63,7 +67,10 @@ class DominionData:
         """runs simulation and calculates some basic statistics on scores and turns"""
         for i in range(self.n_games):
             
-            game = Game(n_players=self.n_players, strategy=self.strats, cards=self.cards, verbose=False)
+            game = Game(n_players=self.n_players, 
+                        strategy=self.strats, 
+                        options = self.options,
+                        cards=self.cards, verbose=False)
             game.play()
             
             self.ind_scores[i] = game.get_final_scores()

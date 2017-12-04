@@ -11,7 +11,9 @@ import numpy as np
 num_games = 1
 avg_scores = np.array([0., 0.,0.])
 for i in range(num_games):
-    game = Game(n_players=3, strategy=[BigMoney, BigMoneySmithy, BigMoneyMilitia], verbose=True)
+    game = Game(n_players=3,
+                strategy=[BigMoney, BigMoneySmithy, BigMoneyMilitia],
+                options = [{},{},{}], verbose=True)
     game.play()
     avg_scores += game.get_final_scores()
     

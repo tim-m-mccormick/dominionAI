@@ -9,7 +9,7 @@ from Strategy import BigMoney, BigMoneySmithy, BigMoneyMilitia, BigMoneyXSmithy,
 import numpy as np
 from time import time
 import matplotlib.pylab as plt
-num_games = 2000
+num_games = 50
 avg_scores = np.array([0., 0.])
 ti = time()
 scores = []
@@ -17,7 +17,7 @@ smithies=range(0,9)
 for x in smithies:
     for i in range(num_games):
         game = Game(n_players=2, 
-                    strategy=[BigMoney, BigMoneyXSmithy], 
+                    strategy=[BigMoney, BigMoney], 
                     options=[{}, {'n_Smithy':x}], 
                     verbose=False)
         game.play()

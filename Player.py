@@ -37,6 +37,9 @@ class Player:
         else:
             self.strategy = strategy(self, self.game.kingdom.stacks, **kwargs)
         
+        # name is name of strategy with unique tag to account for multiple copies of the same strat
+        self.name = str(self.strategy) + '_' + str(id(self))
+        
         self.discard_pile = Stack(cards = list(map(lambda x: Card(x, self.game),7*['Copper'] + 3*['Estate'])))
         self.draw_pile = Stack(cards=[])
         self.hand      = Hand(cards=[])

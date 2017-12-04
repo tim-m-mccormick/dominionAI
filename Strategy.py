@@ -3,14 +3,17 @@
 Created on Thu Nov 30 19:43:45 2017
 
 Strategy base class for Dominion
-including BigMoney subclass
+
+ALL Strategy SUBCLASSES REQUIRE TWO FUNCTIONS:
+    action_phase : decides the order of actions to play
+    buy_phase    : decides what to buy based on available coins/buys
+
 
 @author: blenderhead, tim-m-mccormick
 """
 
 class Strategy:
     
-    name = None
     """
     Virtual parent class for strategies
     """
@@ -18,10 +21,20 @@ class Strategy:
         
         self.kwargs = kwargs
         self.k_cards = kingdom_cards
-        self.name = None
+        self.name = self.__str__
+
         return None
     
+    def __repr__(self):
+        """
+        return a name with alphabetically-ordered kwargs appended
+        """
+        return self.__class__.__name__ + ''.join([str(self.kwargs[kw]) for kw in sorted(self.kwargs.keys())])
+        
     def take_turn(self, player):
+        """
+        executes action_phase and buy_phase
+        """
         
         self.action_phase(player)
         player.coins += player.hand.coins # bonus coins from actions plus money
@@ -30,9 +43,16 @@ class Strategy:
         return None
     
     def action_phase(self):
+        """
+        default is to take no actions
+        """
         pass
     
     def discard(self, player, n):
+        """
+        default discarding strategy priority is: victory cards, coppers, silvers,
+        terminal actions, other actions, and gold
+        """
         discards = []
         while len(discards) < n:
             for card in player.hand.cards:
@@ -63,7 +83,7 @@ class BigMoney(Strategy):
     Buys the most valuable money card it can afford
     Buys provinces as soon as it can afford them
     """
-    name = "Big Money"
+
     def action_phase(self, player):
         pass
     
@@ -86,8 +106,6 @@ class BigMoney_SP(Strategy):
     Buys dutchies instead of provinces when number of provinces is less than dutchy_buy
     Buys estates instead of provinces or dutchies when #provinces is less than estate_buy
     """
-    
-    name = "Big Money_SP"
     
     def action_phase(self, player):
         pass
@@ -133,8 +151,6 @@ class BigMoneySmithy(Strategy):
         Buys provinces as soon as it can afford them
     """
     
-    name = 'Big Money Smithy'
-    
     def action_phase(self, player):
         if player.hand.count('Smithy') == 1:
             player.play_action('Smithy')
@@ -164,9 +180,7 @@ class BigMoneyMilitia(Strategy):
     Buys militia as soon as it has $4, then as BigMoney:
         Buys the most valuable money card it can afford
         Buys provinces as soon as it can afford them
-    """
-    
-    name = 'Big Money Militia'
+        """
     
     def action_phase(self, player):
         if player.hand.count('Militia') == 1:
@@ -193,11 +207,12 @@ class BigMoneyMilitia(Strategy):
             
 class BigMoneyXSmithy(Strategy):
     """
+    allows for an adjustable MAXIMUM number of smithies for the player to buy.
+    there is no guarantee that this number of smithies will be bought, but if
+    the player has 4 or 5 coins and less than the provided number, xe will buy
         KEYWORD ARGUMENTS:
             n_Smithy = maximum number of Smithies to buy
     """
-    
-    name = "Big Money + Smithy"
     
     def action_phase(self, player):
         if 'Smithy' in player.hand.names():
@@ -220,11 +235,12 @@ class BigMoneyXSmithy(Strategy):
 
 class VillageSmithy(Strategy):
     """
+    village / smithy engine with adjustable MAX numbers of each. No guarantee that
+    player will buy the provided number as with BigMoneyXSmithy
         KEYWORD ARGUMENTS:
             n_Smithy  = maximum number of Smithies to buy
             n_Village = maximum number of Villages to buy
     """
-    name = "Village/Smithy Engine"
     
     def action_phase(self, player):        
         while player.actions > 0:
@@ -254,11 +270,11 @@ class VillageSmithy(Strategy):
             
 class VillageMilitia(Strategy):
     """
+    similar to village/smithy but purchases militia in place of smithies
         KEYWORD ARGUMENTS:
             n_Militia = maximum number of Militias to buy
             n_Village = maximum number of Villages to buy
     """    
-    name = "Village/Smithy Engine"
     
     def action_phase(self, player):        
         while player.actions > 0:

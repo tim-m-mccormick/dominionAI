@@ -14,6 +14,7 @@ from Kingdom import Kingdom
 from Player import Player
 import numpy as np
 import matplotlib.pyplot as plt
+import multiprocessing
 
 class DominionData:
     """
@@ -86,8 +87,26 @@ class DominionData:
             
             self.avg_scores += game.get_final_scores()
             
+    def run_simulation_parallel(self, n_proc=multiprocessing.cpu_count()):
+        """runs simulation in parallel and calculates some basic statistics on scores and turns"""
+        pool = multiprocessing.Pool(n_proc)
+        
+        self.ind_scores, self.ind_turns = zip(*pool.map(self._run, range(self.n_games)))
+                    
+        self.avg_scores = np.sum(self.ind_scores, axis=0)/self.n_games
             
         return None
+    
+    def _run(self, *args):
+        """ used by parallel run"""
+        game = Game(n_players=self.n_players, 
+                        strategy=self.strats, 
+                        options = self.options,
+                        cards=self.cards,
+                        verbose=False,
+                        random_order=True)
+        game.play()
+        return game.get_final_scores(), game.get_final_turn()
     
     def hist_scores(self):
         """Plots histogram of scores of each player"""
@@ -100,3 +119,4 @@ class DominionData:
         plt.show() 
         
         return None
+    

@@ -42,9 +42,9 @@ class DominionData:
                           'Workshop']
         
         #we need a default game to call to kingdom
-        #self.def_game  = Game(n_players=2, strategy=self.strats, cards=self.cards, verbose=False)
-        #self.kingdom   = Kingdom(self.def_game)
-        #self.players   = [Player(self, self.strats[n]) for n in range(self.n_players)]
+        self.def_game  = Game(n_players=2, strategy=self.strats, cards=self.cards, verbose=False)
+        self.kingdom   = Kingdom(self.def_game)
+        self.players   = [Player(self, self.strats[n]) for n in range(self.n_players)]
         
         #Some individual quantities
         self.ind_scores = np.ndarray(shape=(self.n_games,self.n_players), dtype = int)
@@ -78,8 +78,10 @@ class DominionData:
         """Plots histogram of scores of each player"""
         hists = self.n_players*[0]
         bin_edges = self.n_players*[0]
-        scoresTrans = self.ind_scores.T
-        #hists = [np.histogram(scoresTrans[i]) for i in range(n_players)]
-        #plt.bar(bin_edges[:-1], hists, width = 1)
-        #plt.xlim(min(bin_edges), max(bin_edges))
-        #plt.show()  
+        scoresTrans = self.ind_scores.T.tolist()
+        for i in range(len(scoresTrans)):
+            plt.hist(scoresTrans[i], alpha = 1.0/len(scoresTrans), label=self.strats[i].name)
+        plt.legend(loc = 'upper right')
+        plt.show() 
+        
+        return None

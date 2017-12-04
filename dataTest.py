@@ -9,8 +9,9 @@ from DominionData import *
 from Strategy import * 
 import numpy as np
 
-dataTest = DominionData(num_players = 2, strategy=[BigMoney,BigMoneySmithy],cards=None,n_games=4)
+dataTest = DominionData(num_players = 2, strategy=[BigMoney,BigMoneySmithy],cards=None,n_games=1000)
 dataTest.run_simulation()
+dataTest.hist_scores()
 
 #dataTest.hist_scores()
 #hist, bin = np.histogram(dataTest.ind_scores)

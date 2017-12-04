@@ -84,6 +84,9 @@ class BigMoneySmithy(Strategy):
         Buys the most valuable money card it can afford
         Buys provinces as soon as it can afford them
     """
+    
+    name = 'Big Money Smithy'
+    
     def action_phase(self, player):
         if player.hand.count('Smithy') == 1:
             player.play_action('Smithy')
@@ -114,6 +117,9 @@ class BigMoneyMilitia(Strategy):
         Buys the most valuable money card it can afford
         Buys provinces as soon as it can afford them
     """
+    
+    name = 'Big Money Militia'
+    
     def action_phase(self, player):
         if player.hand.count('Militia') == 1:
             player.play_action('Militia')

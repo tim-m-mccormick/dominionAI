@@ -17,6 +17,7 @@ class Strategy:
     def __init__(self, player, kingdom_cards, **kwargs):
         
         self.kwargs = kwargs
+        self.k_cards = kingdom_cards
         self.name = None
         return None
     
@@ -76,7 +77,54 @@ class BigMoney(Strategy):
             player.buy('Gold')
         else:
             player.buy('Province')
-            
+
+class BigMoney_SP(Strategy):
+    """
+    Big money strategy with smart province buy
+    Buys the most valuable money card it can afford while there are less provinces than dutchy_buy
+    Buys provinces as soon as it can afford them
+    Buys dutchies instead of provinces when number of provinces is less than dutchy_buy
+    Buys estates instead of provinces or dutchies when #provinces is less than estate_buy
+    """
+    
+    name = "Big Money_SP"
+    
+    def action_phase(self, player):
+        pass
+    
+    def buy_phase(self, player):
+        
+        if self.k_cards['Province'].size() > self.kwargs['dutchy_buy']:
+            #Do BigMoney
+            if player.coins <= 2:
+                pass
+            elif player.coins <= 5:
+                player.buy('Silver')
+            elif player.coins <= 7:
+                player.buy('Gold')
+            else:
+                player.buy('Province')
+           
+        #SHOULD MAKE SURE THERE ARE DUTCHIES LEFT
+        elif (self.k_cards['Province'].size() <= self.kwargs['dutchy_buy']) and (self.k_cards['Province'].size() > self.kwargs['estate_buy']):
+            #Buy dutchies
+            if player.coins <= 2:
+                pass
+            elif player.coins <= 4:
+                player.buy('Silver')
+            elif player.coins <= 7:
+                player.buy('Dutchy')
+            else:
+                player.buy('Province')
+                
+        #SHOULD MAKE SURE THERE ARE ESTATES LEFT
+        elif (self.k_cards['Province'].size() <= self.kwargs['estate_buy']):
+            #Buy estate
+            if player.coins <= 7:
+                player.buy('Estate')
+            else:
+                player.buy('Province')
+         
 class BigMoneySmithy(Strategy):
     """
     Simplest big money + smithy card

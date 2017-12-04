@@ -33,9 +33,9 @@ class Player:
         # and gets modified during buy()
         self.game = game
         if strategy is None:
-            self.strategy = BigMoney(self, self.game.kingdom.stacks.keys())
+            self.strategy = BigMoney(self, self.game.kingdom.stacks)
         else:
-            self.strategy = strategy(self, self.game.kingdom.stacks.keys(), **kwargs)
+            self.strategy = strategy(self, self.game.kingdom.stacks, **kwargs)
         
         self.discard_pile = Stack(cards = list(map(lambda x: Card(x, self.game),7*['Copper'] + 3*['Estate'])))
         self.draw_pile = Stack(cards=[])

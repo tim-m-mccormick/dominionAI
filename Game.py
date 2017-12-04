@@ -37,12 +37,14 @@ class Game:
         self.other_players = None
         self.final_scores  = None
         self.final_turn    = None
+        
         return None
     
     def _quiet_play(self):
         """plays a game of Dominion with no printing"""
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
+        
         while not self.game_over:
             idx, self.active_player = next(player_list)
             self.other_players = set(self.players)-set([self.active_player])
@@ -58,6 +60,7 @@ class Game:
         """plays a game of dominion with full output"""
         player_list = cycle(enumerate(self.players))
         player_turn = self.n_players*[0]
+        
         while not self.game_over:
             idx, self.active_player = next(player_list)
             if idx == 0:
@@ -70,6 +73,7 @@ class Game:
             self.game_over = self.kingdom.check_game_over() 
             
         self.final_points = list(map(lambda x: x.deck.points, self.players))
+        
         print('Final decks:')
         for i in range(self.n_players):
             print('player ' + str(i) + 's deck:')

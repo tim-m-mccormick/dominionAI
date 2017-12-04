@@ -62,7 +62,7 @@ class Stack:
         return len(self.cards)
     
     def names(self):
-        return [card.name for card in self.cards]
+        return [str(card) for card in self.cards]
     
     def count(self, card_name):
         return self.names().count(card_name)
@@ -77,7 +77,7 @@ class Hand(Stack):
     # function returns the first Card in the Hand with name == card_name 
     def first(self, card_name):
         for card in self.cards:
-            if card.name == card_name:
+            if str(card) == card_name:
                 return card
         print("No " + card_name + " card in hand!")
         

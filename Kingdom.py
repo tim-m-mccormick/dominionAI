@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from Stack import Stack
-from Card import Card
+from Card  import Card
 from numpy import concatenate
 """
 Created on Thu Nov 30 21:13:42 2017

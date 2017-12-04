@@ -5,200 +5,278 @@ Created on Fri Dec  1 10:50:40 2017
 
 @author: blenderhead, tim-m-mccormick
 """
-class Card:
+curse_cards     = ['Curse']
+victory_cards   = ['Estate', 'Duchy', 'Province', 'Colony']
+treasure_cards  = ['Copper', 'Silver', 'Gold', 'Platinum']
+base_game_cards = ['Adventurer', 'Bureaucrat', 'Cellar', 'Chancellor', 'Chapel', 
+                   'CouncilRoom', 'Feast', 'Festival', 'Gardens', 'Laboratory', 
+                   'Library', 'Market', 'Militia', 'Mine', 'Moat', 
+                   'Moneylender', 'Remodel', 'Smithy', 'Spy', 'Thief', 
+                   'ThroneRoom', 'Village', 'Witch', 'Woodcutter', 'Workshop']
+supported_cards = curse_cards + victory_cards + treasure_cards + base_game_cards
+
+def Card(card, game):
     
-    def __init__(self, card='Copper', game = 'none'):
-        if game == 'none':
-            print('did not pass a game to card!!')
-        self.game = game
-        #default points is zero
-        self.name = card
-        self.type = 'Action' # Action is default type because there are more of them
+    if card in supported_cards:
+        return eval(card + "(game=game)")
+    raise NotImplementedError(card + " not yet implemented! do it yourself!")
+
+    
+class CardClass:
+    
+    def __init__(self, game=None):
+        pass
+    
+    def __repr__(self):
+        return self.__class__.__name__
+    
+    # boolean function to handle multi-type cards like harem
+    def is_type(self, card_type):
+        return card_type in self.type.split()
+    
+    # effect when played
+    def card_action(*args):
+        pass
+    
+    # effect on gain (common in hinterlands)
+    def on_gain(*args):
+        pass
+    
+    # duration effect (common in seaside?)
+    def duration(*args):
+        pass
+    """ add other null functions here as we incorporate more expansion functionality """
+
+""" Curse cards """
+class Curse(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Curse'
+        self.points = -1
+        self.value  = 0
+        self.cost   = 0
+        self.game   = game
+        
+""" Treasure cards """
+class Copper(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Treasure'
+        self.points = 0
+        self.value  = 1
+        self.cost   = 0
+        
+class Silver(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Treasure'
+        self.points = 0
+        self.value  = 2
+        self.cost   = 3
+        self.game   = game
+        
+class Gold(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Treasure'    
+        self.points = 0
+        self.value  = 3
+        self.cost   = 6
+        self.game   = game
+        
+class Platinum(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Treasure'    
+        self.points = 0
+        self.value  = 5
+        self.cost   = 9
+        self.game   = game
+        
+""" Victory cards """
+class Estate(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Victory'    
+        self.points = 1
+        self.value  = 0
+        self.cost   = 2
+        self.game   = game
+        
+class Duchy(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Victory'    
+        self.points = 3
+        self.value  = 0
+        self.cost   = 5
+        self.game   = game
+        
+class Province(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Victory'    
+        self.points = 6
+        self.value  = 0
+        self.cost   = 8
+        self.game   = game
+        
+class Colony(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Victory'    
+        self.points = 10
+        self.value  = 0
+        self.cost   = 11
+        self.game   = game
+        
+""" Base game kingdom cards """
+class Adventurer(CardClass):    
+    pass
+
+class Bureaucrat(CardClass):
+    pass
+
+class Cellar(CardClass):
+    pass
+
+class Chancellor(CardClass):
+    pass
+
+class Chapel(CardClass):
+    pass
+
+class CouncilRoom(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Action'
         self.points = 0
         self.value  = 0
-        #Check cards and call appropriate constructor
-        if card in ['Copper', 'Silver', 'Gold', 'Platinum']:
-            self.money_card(card)
-        elif card in ['Estate', 'Duchy', 'Province', 'Colony']:
-            self.victory_card(card)
-        elif card in ['Curse']:
-            self.curse_card(card)
-        elif card in ['Adventurer', 'Bureaucrat', 'Cellar', 'Chancellor', 'Chapel', 
-                      'CouncilRoom', 'Feast', 'Festival', 'Gardens', 'Laboratory', 
-                      'Library', 'Market', 'Militia', 'Mine', 'Moat', 
-                      'Moneylender', 'Remodel', 'Smithy', 'Spy', 'Thief', 
-                      'ThroneRoom', 'Village', 'Witch', 'Woodcutter', 'Workshop']:
-            # self.card_action is a function returned by the base_game_card function
-            # this should dynamically handle different numbers of arguments
-            self.card_action = self.base_game_card(card)
-            
+        self.cost   = 5
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        self.game.active_player.draw(4)
+        self.game.active_player.buys += 1
+        self.game.active_player.others_draw(1)
+        return None
 
-    def money_card(self, card):
-        self.type = 'Money'
-        #Check what type of money card
-        if card == 'Copper':
-            self.cost  = 0
-            self.value = 1
-        elif card == 'Silver':
-            self.cost = 3
-            self.value = 2
-        elif card == 'Gold':
-            self.cost = 6
-            self.value = 3
-        elif card == 'Platinum':
-            self.cost = 9
-            self.value = 5
-        else:
-            print('money_card() called using non-money arguement')
-            
-    def victory_card(self, card):
-        #check what type of victory card
-        self.type = 'Victory'
-        if card == 'Estate':
-            self.cost = 2
-            self.points = 1
-        elif card == 'Duchy':
-            self.cost = 5
-            self.points = 3
-        elif card == 'Province':
-            self.cost = 8
-            self.points = 6
-        elif card == 'Colony':
-            self.cost = 11
-            self.points = 10
-        else:
-            print('victory_card() called with non-victory arguement')
-            
-    def curse_card(self, card):
-        if card == 'Curse':
-            self.cost = 0
-            self.points = -1
-            self.type  = 'Curse'
-        else:
-            print('curse_card() called with non-curse card')
-            
-    def base_game_card(self, card):
-        
-        if card   == 'Adventurer':
-            pass
-        
-        elif card == 'Bureaucrat':
-            pass
-        
-        elif card == 'Cellar':
-            pass
-        
-        elif card == 'Chancellor':
-            pass
-        
-        elif card == 'Chapel':
-            pass
-        
-        elif card == 'CouncilRoom':
-            self.cost = 5
-            self.terminal_action = True
-            def card_action():
-                self.game.active_player.draw(4)
-                self.game.active_player.buys += 1
-                self.game.active_player.others_draw(1)
-            return 
-        
-        elif card == 'Feast':
-            pass
-        
-        elif card == 'Festival':
-            self.cost = 5
-            self.terminal_action = False
-            def card_action():
-                self.game.active_player.actions += 2
-                self.game.active_player.buys += 1
-                self.game.active_player.coins += 2
-            return card_action
-        
-        elif card == 'Gardens':
-            pass
-        
-        elif card == 'Laboratory':
-            self.cost = 5
-            self.terminal_action = False
-            def card_action():
-                self.game.active_player.draw(2)
-                self.game.active_player.actions += 1
-            return card_action
-        
-        elif card == 'Library':
-            pass
-        
-        elif card == 'Market':
-            self.cost = 5
-            self.terminal_action = False
-            def card_action():
-                self.game.active_player.draw(1)
-                self.game.active_player.actions += 1
-                self.game.active_player.coins += 1
-                self.game.active_player.buys += 1
-            return card_action
-        
-        elif card == 'Militia':
-            self.cost = 4
-            self.terminal_action = True
-            def card_action():
-                self.game.active_player.coins += 2
-                self.game.active_player.others_discard_to(3)
-            return card_action
-        
-        elif card == 'Mine':
-            pass
-        
-        elif card == 'Moat':
-            pass
-        
-        elif card == 'Moneylender':
-            pass
-        
-        elif card == 'Remodel':
-            pass
-        
-        elif card == 'Smithy':
-            self.cost = 4
-            self.terminal_action = True
-            def card_action():
-                self.game.active_player.draw(3)
-                return None
-            return card_action # return the function so that it's in the instance's scope
-            
-        elif card == 'Spy':
-            pass
-        
-        elif card == 'Thief':
-            pass
+class Feast(CardClass):
+    pass
 
-        elif card == 'ThroneRoom':
-            pass
-        
-        elif card == 'Village':
-            self.cost = 3
-            self.terminal_action = False
-            def card_action():
-                self.game.active_player.actions += 2
-                self.game.active_player.draw(1)
-                return None
-            return card_action
-        
-        elif card == 'Witch':
-            pass
-        
-        elif card == 'Woodcutter':
-            self.cost = 3
-            self.terminal_action = True
-            def card_action():
-                self.game.active_player.buys += 1
-                self.game.active_player.coins += 2
-            return card_action
-        
-        elif card == 'Workshop':
-            pass
-        
-        else:
-            print('card not found in base game!')
+class Festival(CardClass):
+    pass
 
+class Gardens(CardClass):
+    pass
+
+class Laboratory(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 5
+        self.game   = game
+        self.terminal_action = False
+    
+    def card_action(self):
+        self.game.active_player.draw(2)
+        self.game.active_player.actions += 1
+    pass
+
+class Library(CardClass):
+    pass
+
+class Market(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost = 5
+        self.game   = game
+        self.terminal_action = False
+    
+    def card_action(self):
+        self.game.active_player.draw(1)
+        self.game.active_player.actions += 1
+        self.game.active_player.coins += 1
+        self.game.active_player.buys += 1
+        return None
+    
+class Militia(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Action Attack'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        self.game.active_player.coins += 2
+        self.game.active_player.others_discard_to(3)
+        return None
+            
+class Mine(CardClass):
+    pass
+
+class Moat(CardClass):
+    pass
+
+class Moneylender(CardClass):
+    pass
+
+class Remodel(CardClass):
+    pass
+
+class Smithy(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        self.game.active_player.draw(3)
+        return None
+
+class Spy(CardClass):
+    pass
+
+class Theif(CardClass):
+    pass
+
+class ThroneRoom(CardClass):
+    pass
+
+class Village(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 3
+        self.game   = game
+        self.terminal_action = False
+        
+    def card_action(self):
+        self.game.active_player.actions += 2
+        self.game.active_player.draw(1)
+        return None
+    
+class Witch(CardClass):
+    pass
+#    def __init__(self, game=None):
+#        self.type   = 'Action Attack'
+#        self.points = 0
+#        self.value  = 0
+#        self.cost   = 5
+    
+class Woodcutter(CardClass):
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 3
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        self.game.active_player.buys += 1
+        self.game.active_player.coins += 2
+        return None
+
+class Workshop(CardClass):
+    pass

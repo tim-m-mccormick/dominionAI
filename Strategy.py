@@ -56,22 +56,22 @@ class Strategy:
         discards = []
         while len(discards) < n:
             for card in player.hand.cards:
-                if card.type == 'Victory' and card not in discards:
+                if card.is_type('Victory') and card not in discards:
                     discards += [card]
                     break
-                elif card.name == 'Copper' and card not in discards:
+                elif str(card) == 'Copper' and card not in discards:
                     discards += [card]
                     break
-                elif card.name == 'Silver' and card not in discards:
+                elif str(card) == 'Silver' and card not in discards:
                     discards += [card]
                     break
-                elif card.type == 'Action' and card.terminal_action and card not in discards:
+                elif card.is_type('Action') and card.terminal_action and card not in discards:
                     discards += [card]
                     break
-                elif card.type == 'Action' and not card.terminal_action and card not in discards:
+                elif card.is_type('Action') and not card.terminal_action and card not in discards:
                     discards += [card]
                     break
-                elif card.name == 'Gold' and card not in discards:
+                elif str(card) == 'Gold' and card not in discards:
                     discards += [card]
                     break
 
@@ -272,8 +272,9 @@ class BigMoneyXCard(Strategy):
     
     #NEED TO DECIDE WHEN TO BUY CARD
     def buy_phase(self, player):
+        card_cost = self.k_cards[self.kwargs['card_name']].cards[0].cost # ugly but works
         # if four or five player.coins in hand and fewer than 3 smithies, buy a smithy
-        if player.coins in [] and player.deck.count(self.kwargs['card_name']) < self.kwargs['n_Card']:
+        if player.coins <= card_cost and player.deck.count(self.kwargs['card_name']) < self.kwargs['n_Card']:
             player.buy(self.kwargs['card_name'])
         # otherwise do big money
         elif player.coins <= 2:

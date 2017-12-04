@@ -111,6 +111,11 @@ class Player:
             p.discard(n)
         return None
     
+    def others_gain(self, card):
+        for p in self.game.other_players:
+            p.gain(card)
+        return None
+    
     def trash(self, card):
         
         return None # not used yet
@@ -136,11 +141,21 @@ class Player:
         if self.game.verbose:
             print("   has hand: ", self.hand.names())
             print("   buys " + card)
-        popped = self.game.kingdom.pop(card)
-        self.discard_pile.extend([popped])
-        self.deck.extend([popped])
+
+        popped = self.gain(card)
         self.coins -= popped.cost
         return None
+    
+    def gain(self, card):
+        if self.game.kingdom.stacks[card].size() > 0:
+            popped = self.game.kingdom.pop(card)
+            self.discard_pile.extend([popped])
+            self.deck.extend([popped])
+        else:
+            if self.game.verbose:
+                print("   " + card + " stack is empty!")
+            popped = None
+        return popped
     
     def play_action(self, card_name):
         assert card_name in self.hand.names(), "Playing a card you don't have? Cheater!"

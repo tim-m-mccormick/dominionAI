@@ -22,9 +22,9 @@ class DominionData:
     """
     def __init__(self,num_players=2, 
                  strategy=[BigMoney,BigMoneySmithy], 
-                 options = [{},{}], cards=None, n_games = 1):
+                 options = [{},{}], cards=None, n_games = 1, verbose=False):
         """constructor for DominionData"""
-        self.verbose = False
+        self.verbose = verbose
         self.n_players = num_players
         self.strats = strategy
         self.options = options
@@ -44,10 +44,12 @@ class DominionData:
                           'Village',
                           'Woodcutter',
                           'Workshop']
+        else:
+            self.cards = cards
         
         #we need a default game to call to kingdom
         self.def_game  = Game(n_players=2, strategy=self.strats,
-                              options = self.options, cards=self.cards, verbose=False, random_order=False)
+                              options = self.options, cards=self.cards, verbose=self.verbose, random_order=False)
         self.kingdom   = Kingdom(self.def_game)
         self.players   = [Player(self, self.strats[n]) for n in range(self.n_players)]
         
@@ -78,7 +80,7 @@ class DominionData:
                         strategy=self.strats, 
                         options = self.options,
                         cards=self.cards,
-                        verbose=False,
+                        verbose=self.verbose,
                         random_order=True)
             game.play()
             

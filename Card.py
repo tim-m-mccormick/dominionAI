@@ -257,12 +257,18 @@ class Village(CardClass):
         return None
     
 class Witch(CardClass):
-    pass
-#    def __init__(self, game=None):
-#        self.type   = 'Action Attack'
-#        self.points = 0
-#        self.value  = 0
-#        self.cost   = 5
+    def __init__(self, game=None):
+        self.type   = 'Action Attack'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 5
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        self.game.active_player.draw(2)
+        self.game.active_player.others_gain('Curse')
+        return None
     
 class Woodcutter(CardClass):
     def __init__(self, game=None):

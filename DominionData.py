@@ -85,7 +85,7 @@ class DominionData:
             self.ind_scores[i] = game.get_final_scores()
             self.ind_turns[i]  = game.get_final_turn()
             
-            self.avg_scores += game.get_final_scores()
+        self.avg_scores = np.sum(self.ind_scores, axis=0)/self.n_games
             
     def run_simulation_parallel(self, n_proc=multiprocessing.cpu_count()):
         """runs simulation in parallel and calculates some basic statistics on scores and turns"""

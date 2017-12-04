@@ -19,7 +19,7 @@ class Card:
         #Check cards and call appropriate constructor
         if card in ['Copper', 'Silver', 'Gold', 'Platinum']:
             self.money_card(card)
-        elif card in ['Estate', 'Dutchy', 'Province', 'Colony']:
+        elif card in ['Estate', 'Duchy', 'Province', 'Colony']:
             self.victory_card(card)
         elif card in ['Curse']:
             self.curse_card(card)
@@ -57,7 +57,7 @@ class Card:
         if card == 'Estate':
             self.cost = 2
             self.points = 1
-        elif card == 'Dutchy':
+        elif card == 'Duchy':
             self.cost = 5
             self.points = 3
         elif card == 'Province':

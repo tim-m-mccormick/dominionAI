@@ -108,14 +108,19 @@ class DominionData:
         game.play()
         return game.get_final_scores(), game.get_final_turn()
     
-    def hist_scores(self):
+    def hist_scores(self, n_bins=5):
         """Plots histogram of scores of each player"""
-        hists       = self.n_players*[0]
-        bin_edges   = self.n_players*[0]
+        min_score = np.min(self.ind_scores)
+        max_score = np.max(self.ind_scores)
+        binboundaries = np.linspace(min_score, max_score, n_bins)
         scoresTrans = self.ind_scores.T.tolist()
+        print(binboundaries)
         for i in range(len(scoresTrans)):
-            plt.hist(scoresTrans[i], alpha = 1.0/len(scoresTrans), label=self.names[i])
-        plt.legend(loc = 'upper right')
+            plt.hist(scoresTrans[i], 
+                     alpha = 1.0/len(scoresTrans), 
+                     label=self.names[i],
+                     bins=binboundaries)
+        plt.legend(bbox_to_anchor=(0,1), loc=3)
         plt.show() 
         
         return None

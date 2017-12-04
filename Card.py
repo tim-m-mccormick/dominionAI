@@ -78,16 +78,22 @@ class Card:
             print('curse_card() called with non-curse card')
             
     def base_game_card(self, card):
+        
         if card   == 'Adventurer':
             pass
+        
         elif card == 'Bureaucrat':
             pass
+        
         elif card == 'Cellar':
             pass
+        
         elif card == 'Chancellor':
             pass
+        
         elif card == 'Chapel':
             pass
+        
         elif card == 'CouncilRoom':
             self.cost = 5
             self.terminal_action = True
@@ -96,8 +102,10 @@ class Card:
                 self.game.active_player.buys += 1
                 self.game.active_player.others_draw(1)
             return 
+        
         elif card == 'Feast':
             pass
+        
         elif card == 'Festival':
             self.cost = 5
             self.terminal_action = False
@@ -106,8 +114,10 @@ class Card:
                 self.game.active_player.buys += 1
                 self.game.active_player.coins += 2
             return card_action
+        
         elif card == 'Gardens':
             pass
+        
         elif card == 'Laboratory':
             self.cost = 5
             self.terminal_action = False
@@ -115,8 +125,10 @@ class Card:
                 self.game.active_player.draw(2)
                 self.game.active_player.actions += 1
             return card_action
+        
         elif card == 'Library':
             pass
+        
         elif card == 'Market':
             self.cost = 5
             self.terminal_action = False
@@ -126,6 +138,7 @@ class Card:
                 self.game.active_player.coins += 1
                 self.game.active_player.buys += 1
             return card_action
+        
         elif card == 'Militia':
             self.cost = 4
             self.terminal_action = True
@@ -133,14 +146,19 @@ class Card:
                 self.game.active_player.coins += 2
                 self.game.active_player.others_discard_to(3)
             return card_action
+        
         elif card == 'Mine':
             pass
+        
         elif card == 'Moat':
             pass
+        
         elif card == 'Moneylender':
             pass
+        
         elif card == 'Remodel':
             pass
+        
         elif card == 'Smithy':
             self.cost = 4
             self.terminal_action = True
@@ -148,12 +166,16 @@ class Card:
                 self.game.active_player.draw(3)
                 return None
             return card_action # return the function so that it's in the instance's scope
+            
         elif card == 'Spy':
             pass
+        
         elif card == 'Thief':
             pass
+
         elif card == 'ThroneRoom':
             pass
+        
         elif card == 'Village':
             self.cost = 3
             self.terminal_action = False
@@ -162,8 +184,10 @@ class Card:
                 self.game.active_player.draw(1)
                 return None
             return card_action
+        
         elif card == 'Witch':
             pass
+        
         elif card == 'Woodcutter':
             self.cost = 3
             self.terminal_action = True
@@ -171,8 +195,10 @@ class Card:
                 self.game.active_player.buys += 1
                 self.game.active_player.coins += 2
             return card_action
+        
         elif card == 'Workshop':
             pass
+        
         else:
             print('card not found in base game!')
 

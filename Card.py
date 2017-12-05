@@ -183,7 +183,19 @@ class Feast(CardClass):
     pass
 
 class Festival(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 5
+        self.game   = game
+        self.terminal_action = False
+        
+    def card_action(self):
+        self.game.active_player.actions += 2
+        self.game.active_player.buys += 1
+        self.game.active_player.coins += 2
+        return None
 
 class Gardens(CardClass):
     pass
@@ -200,7 +212,7 @@ class Laboratory(CardClass):
     def card_action(self):
         self.game.active_player.draw(2)
         self.game.active_player.actions += 1
-    pass
+        return None
 
 class Library(CardClass):
     pass

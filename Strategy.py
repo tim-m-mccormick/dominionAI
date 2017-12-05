@@ -48,7 +48,6 @@ class Strategy:
         """
         executes action_phase and buy_phase
         """
-        
         self.action_phase(player)
         player.coins += player.hand.coins # bonus coins from actions plus money
         self.buy_phase(player)
@@ -90,9 +89,8 @@ class Strategy:
             self.naive_buy(player)
            
         #SHOULD MAKE SURE THERE ARE DUCHIES LEFT
-        elif self.k_cards['Duchy'].size() > 0 and \
-        self.k_cards['Province'].size() <= self.kwargs['duchy_buy'] and \
-        self.k_cards['Province'].size() > self.kwargs['estate_buy']:
+        elif player.coins >= 5 and self.k_cards['Duchy'].size() > 0 and \
+        self.k_cards['Province'].size() <= self.kwargs['duchy_buy']:
             
             #Buy duchy or province
             if player.coins <= 7:
@@ -101,8 +99,8 @@ class Strategy:
                 player.buy('Province')         
             
         #SHOULD MAKE SURE THERE ARE ESTATES LEFT
-        elif self.k_cards['Province'].size() <= self.kwargs['estate_buy'] and \
-        self.k_cards['Estate'].size() > 0:
+        elif player.coins >= 2 and self.k_cards['Estate'].size() > 0 and \
+        self.k_cards['Province'].size() <= self.kwargs['estate_buy']:
             
             #Buy estate or province
             if player.coins <= 7:
@@ -256,7 +254,7 @@ class BigMoneyXCard(Strategy):
     def buy_phase(self, player):
         card_cost = self.k_cards[self.kwargs['card_name']].cards[0].cost # ugly but works
         # if four or five player.coins in hand and fewer than 3 smithies, buy a smithy
-        if player.coins <= card_cost and player.deck.count(self.kwargs['card_name']) < self.kwargs['n_Card']:
+        if player.coins >= card_cost and player.deck.count(self.kwargs['card_name']) < self.kwargs['n_Card']:
             player.buy(self.kwargs['card_name'])
         # otherwise do big money
         else:

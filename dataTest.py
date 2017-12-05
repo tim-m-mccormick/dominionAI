@@ -13,9 +13,12 @@ cards = ['Cellar', 'Village', 'Workshop', 'Witch', 'Market',
          'Moat', 'Woodcutter', 'Militia', 'Smithy', 'Mine']
 
 dataTest = DominionData(num_players = 2, 
-                        strategy=[BigMoney,BigMoneyXCard],
-                        options = [{},{'card_name':'Witch', 'n_Card':2}], cards=cards,
-                        n_games=100)
+                        strategy=[BigMoneyXCard,BigMoneyXCard],
+                        options = [{'smart_buy':True, 'card_name':'Smithy', 'n_Card':1},
+                                   {'smart_buy':True, 'card_name':'Militia','n_Card':2}],
+                        cards=cards,
+                        n_games=1000, verbose=False)
+dataTest.best_parameter_1d(player_number=1, parameter='n_Card', pvals=range(0,6), assign_best=True, n_games=1000)
 dataTest.run_simulation()
 dataTest.hist_scores(n_bins=10)
 

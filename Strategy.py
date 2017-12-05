@@ -142,7 +142,7 @@ class Strategy:
 
         return discards
     
-    def trash(self, player, n):
+    def trash(self, player):
         """
         Defaults trashing strategy priority is: Estates, coppers
         Default trashing strategy only trashes
@@ -150,7 +150,7 @@ class Strategy:
         trashers = []
         
         for card in player.hand.cards:
-            if str(card) == 'Estate' and card not in trashers:
+            if str(card) == 'Estate' and card not in trashers and player.game.kingdom.stacks['Province'].size() > 1:
                 trashers += [card]
                 
         coinDeckCount = player.deck.coins
@@ -164,14 +164,14 @@ class Strategy:
                     trashers += [c]
                     coinDeckCount -= 1
                     copperHandCount -= 1
-                if (coinDeckCount <=3) or (copperHand == 0):
+                if (coinDeckCount <=3) or (copperHandCount == 0):
                     break
         else:
             for c in player.hand.cards:
                 if str(c) == 'Copper':
                     trashers += [c]
         
-    return trashers
+        return trashers
 
 ###############################################################################
     

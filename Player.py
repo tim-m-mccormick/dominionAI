@@ -123,10 +123,11 @@ class Player:
    
     def trash(self):
         self.trashers = tuple(self.strategy.trash(self))  
-        for c in self.discards: 
+        for c in self.trashers: 
             self.hand.remove(c)
             self.deck.remove(c)
         self.game.kingdom.stacks['Trash'].extend(self.trashers)
+#        print('   Trashing the following cards' + str(self.trashers))
         
         del self.trashers 
         return None

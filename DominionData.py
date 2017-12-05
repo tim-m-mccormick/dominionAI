@@ -116,12 +116,15 @@ class DominionData:
         max_score = np.max(self.ind_scores)
         binboundaries = np.linspace(min_score, max_score, n_bins)
         scoresTrans = self.ind_scores.T.tolist()
-        print(binboundaries)
+        plt.figure(figsize=(8,6))
+        plt.xlabel('Final Score')
+        plt.ylabel('Counts')
         for i in range(len(scoresTrans)):
             plt.hist(scoresTrans[i], 
                      alpha = 1.0/len(scoresTrans), 
                      label=self.names[i],
                      bins=binboundaries)
+            
         plt.legend(bbox_to_anchor=(0,1), loc=3)
         plt.show() 
         

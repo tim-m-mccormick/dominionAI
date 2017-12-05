@@ -27,7 +27,14 @@ class CardClass:
     def __init__(self, game=None):
         pass
     
+    # __repr__ is how objects are represented in lists, so we give it a
+    # unique tag to make sure 'card in player.hand' looks for unique cards
     def __repr__(self):
+        return self.__class__.__name__ + str(id(self))
+    
+    # if no __str__ method exists it defaults to __repr__ but here we don't
+    # want to print the unique id's every time
+    def __str__(self):
         return self.__class__.__name__
     
     # boolean function to handle multi-type cards like harem

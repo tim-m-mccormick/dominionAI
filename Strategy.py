@@ -19,6 +19,19 @@ class Strategy:
     """
     def __init__(self, player, kingdom_cards, **kwargs):
         
+        # set default non-action buying behavior 
+        # to smart with duchy_buy=5, estate_buy=1
+        # other default behavior options can go here
+        if 'smart_buy' not in kwargs.keys():
+            kwargs['smart_buy']  = True
+            kwargs['duchy_buy']  = 5
+            kwargs['estate_buy'] = 1
+        elif kwargs['smart_buy']:
+            if 'duchy_buy' not in kwargs.keys():
+                kwargs['duchy_buy'] = 5
+            if 'estate_buy' not in kwargs.keys():
+                kwargs['estate_buy'] = 1
+        
         self.kwargs = kwargs
         self.k_cards = kingdom_cards
         self.name = self.__str__
@@ -48,6 +61,59 @@ class Strategy:
         """
         pass
     
+    def buy_non_actions(self, player):
+        """ 
+        all strategies can now call this function 
+        after deciding not to buy action cards
+        """
+        if self.kwargs['smart_buy']:
+            self.smart_buy(player)
+        else:
+            self.naive_buy(player)
+    
+    def naive_buy(self, player):
+        """
+        old big-money naive buy
+        """
+        if player.coins <= 2:
+            pass
+        elif player.coins <= 5:
+            player.buy('Silver')
+        elif player.coins <= 7:
+            player.buy('Gold')
+        else:
+            player.buy('Province')
+    
+    def smart_buy(self, player):
+        if self.k_cards['Province'].size() > self.kwargs['duchy_buy']:
+            #Do BigMoney
+            self.naive_buy(player)
+           
+        #SHOULD MAKE SURE THERE ARE DUCHIES LEFT
+        elif self.k_cards['Duchy'].size() > 0 and \
+        self.k_cards['Province'].size() <= self.kwargs['duchy_buy'] and \
+        self.k_cards['Province'].size() > self.kwargs['estate_buy']:
+            
+            #Buy duchy or province
+            if player.coins <= 7:
+                player.buy('Duchy')
+            else:
+                player.buy('Province')         
+            
+        #SHOULD MAKE SURE THERE ARE ESTATES LEFT
+        elif self.k_cards['Province'].size() <= self.kwargs['estate_buy'] and \
+        self.k_cards['Estate'].size() > 0:
+            
+            #Buy estate or province
+            if player.coins <= 7:
+                player.buy('Estate')
+            else:
+                player.buy('Province')
+                
+        else:
+            # back to money
+            self.naive_buy(player)
+            
     def discard(self, player, n):
         """
         default discarding strategy priority is: victory cards, coppers, silvers,
@@ -56,7 +122,8 @@ class Strategy:
         discards = []
         while len(discards) < n:
             for card in player.hand.cards:
-                if card.is_type('Victory') and card not in discards:
+                # new behavior here will not discard multi-type victories like Great Hall
+                if not card.is_type('Action') and not card.is_type('Treasure') and card not in discards:
                     discards += [card]
                     break
                 elif str(card) == 'Copper' and card not in discards:
@@ -84,79 +151,14 @@ class BigMoney(Strategy):
     Simplest possible big money strategy
     Buys the most valuable money card it can afford
     Buys provinces as soon as it can afford them
+    and buys other victory cards according to 'smart_buy' keyword arg
     """
 
     def action_phase(self, player):
         pass
     
     def buy_phase(self, player):
-
-        if player.coins <= 2:
-            pass
-        elif player.coins <= 5:
-            player.buy('Silver')
-        elif player.coins <= 7:
-            player.buy('Gold')
-        else:
-            player.buy('Province')
-
-###############################################################################
-
-class BigMoney_SP(Strategy):
-    """
-    Big money strategy with smart province buy
-    Buys the most valuable money card it can afford while there are less provinces than duchy_buy
-    Buys provinces as soon as it can afford them
-    Buys duchies instead of provinces when number of provinces is less than duchy_buy
-    Buys estates instead of provinces or duchies when #provinces is less than estate_buy
-    """
-    
-    def action_phase(self, player):
-        pass
-    
-    def buy_phase(self, player):
-        
-        if self.k_cards['Province'].size() > self.kwargs['duchy_buy']:
-            #Do BigMoney
-            if player.coins <= 2:
-                pass
-            elif player.coins <= 5:
-                player.buy('Silver')
-            elif player.coins <= 7:
-                player.buy('Gold')
-            else:
-                player.buy('Province')
-           
-        #SHOULD MAKE SURE THERE ARE DUCHIES LEFT
-        elif (self.k_cards['Duchy'].size() > 0) and (self.k_cards['Province'].size() <= self.kwargs['duchy_buy']) and (self.k_cards['Province'].size() > self.kwargs['estate_buy']):
-            #Buy duchies
-            if player.coins <= 2:
-                pass
-            elif player.coins <= 4:
-                player.buy('Silver')
-            elif player.coins <= 7:
-                player.buy('Duchy')
-            else:
-                player.buy('Province')
-                
-        #SHOULD MAKE SURE THERE ARE ESTATES LEFT
-        elif (self.k_cards['Estate'].size() > 0) and (self.k_cards['Province'].size() <= self.kwargs['estate_buy']):
-            #Buy estate
-            if player.coins <= 7:
-                player.buy('Estate')
-            else:
-                player.buy('Province')
-                
-        else:
-            #Do BigMoney
-            if player.coins <= 2:
-                pass
-            elif player.coins <= 5:
-                player.buy('Silver')
-            elif player.coins <= 7:
-                player.buy('Gold')
-            else:
-                player.buy('Province')
+        self.buy_non_actions(player)
 
 ###############################################################################
          
@@ -181,15 +183,8 @@ class BigMoneySmithy(Strategy):
                 player.buy('Silver')
             else:
                 player.buy('Smithy')
-        else: 
-            if player.coins <= 2:
-                pass
-            elif player.coins <= 5:
-                player.buy('Silver')
-            elif player.coins <= 7:
-                player.buy('Gold')
-            else:
-                player.buy('Province')
+        else:
+            self.buy_non_actions(player)
                 
 ###############################################################################
                 
@@ -215,14 +210,7 @@ class BigMoneyMilitia(Strategy):
             else:
                 player.buy('Militia')
         else: 
-            if player.coins <= 2:
-                pass
-            elif player.coins <= 5:
-                player.buy('Silver')
-            elif player.coins <= 7:
-                player.buy('Gold')
-            else:
-                player.buy('Province')
+            self.buy_non_actions(player)
 
 ###############################################################################
             
@@ -244,15 +232,9 @@ class BigMoneyXSmithy(Strategy):
         # if four or five player.coins in hand and fewer than 3 smithies, buy a smithy
         if player.coins in [4,5] and player.deck.count('Smithy') < self.kwargs['n_Smithy']:
             player.buy('Smithy')
-        # otherwise do big money
-        elif player.coins <= 2:
-            pass
-        elif player.coins <= 5:
-            player.buy('Silver')
-        elif player.coins <= 7:
-            player.buy('Gold')
+        # otherwise do buy non actions
         else:
-            player.buy('Province')
+            self.buy_non_actions(player)
 
 ###############################################################################
 
@@ -277,15 +259,9 @@ class BigMoneyXCard(Strategy):
         if player.coins <= card_cost and player.deck.count(self.kwargs['card_name']) < self.kwargs['n_Card']:
             player.buy(self.kwargs['card_name'])
         # otherwise do big money
-        elif player.coins <= 2:
-            pass
-        elif player.coins <= 5:
-            player.buy('Silver')
-        elif player.coins <= 7:
-            player.buy('Gold')
         else:
-            player.buy('Province')
-
+            self.buy_non_actions(player)
+        
 ###############################################################################
 
 class VillageSmithy(Strategy):
@@ -314,14 +290,8 @@ class VillageSmithy(Strategy):
         elif player.coins == 3 and player.deck.count('Village') < self.kwargs['n_Village']:
             player.buy('Village')
         # then just buys money and provinces
-        elif player.coins <= 2:
-            pass
-        elif player.coins <= 5:
-            player.buy('Silver')
-        elif player.coins <= 7:
-            player.buy('Gold')
         else:
-            player.buy('Province')
+            self.buy_non_actions(player)
 
 ###############################################################################
             
@@ -350,11 +320,5 @@ class VillageMilitia(Strategy):
         elif player.coins == 3 and player.deck.count('Village') < self.kwargs['n_Village']:
             player.buy('Village')
         # then just buys money and provinces
-        elif player.coins <= 2:
-            pass
-        elif player.coins <= 5:
-            player.buy('Silver')
-        elif player.coins <= 7:
-            player.buy('Gold')
         else:
-            player.buy('Province')
+            self.buy_non_actions(player)

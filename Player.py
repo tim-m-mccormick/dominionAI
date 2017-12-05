@@ -71,7 +71,10 @@ class Player:
                     if self.game.verbose:
                         print("   has exhausted deck")
                     return None
-            self.hand.extend([self.draw_pile.pop()])
+            popped = self.draw_pile.pop()
+            if self.game.verbose:
+                print("   draws " + str(popped))
+            self.hand.extend([popped])
 
 #        print(self.hand.names())
         return None
@@ -87,7 +90,9 @@ class Player:
         else:
             self.discards = tuple(self.strategy.discard(self, n)) # this should not happen yet
                    
-        for c in self.discards: 
+        for c in self.discards:
+            if self.game.verbose:
+                print("   discards " + str(c))
             self.hand.remove(c)
 #            print('  discard' + str(c))
         self.discard_pile.extend(self.discards)
@@ -124,7 +129,9 @@ class Player:
    
     def trash(self):
         self.trashers = tuple(self.strategy.trash(self))  
-        for c in self.trashers: 
+        for c in self.trashers:
+            if self.game.verbose:
+                print("   trashes " + str(c))
             self.hand.remove(c)
             self.deck.remove(c)
         self.game.kingdom.stacks['Trash'].extend(self.trashers)

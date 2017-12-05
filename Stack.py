@@ -86,4 +86,5 @@ class Deck(Stack):
     
     def update(self):
         self.points = sum([card.points for card in self.cards])
+        self.coins  = sum([card.value for card in self.cards])
         return self

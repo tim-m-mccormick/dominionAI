@@ -76,6 +76,7 @@ class Game:
             
         self.final_turn = player_turn[self.active_player.name]    
         self.final_points = dict(list(map(lambda x: [x.name, x.deck.points], self.players)))
+        
         print(self.final_points)
         print('Final decks:')
         for i in range(self.n_players):

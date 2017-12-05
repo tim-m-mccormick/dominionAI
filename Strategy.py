@@ -141,6 +141,37 @@ class Strategy:
                     break
 
         return discards
+    
+    def trash(self, player, n):
+        """
+        Defaults trashing strategy priority is: Estates, coppers
+        Default trashing strategy only trashes
+        """
+        trashers = []
+        
+        for card in player.hand.cards:
+            if str(card) == 'Estate' and card not in trashers:
+                trashers += [card]
+                
+        coinDeckCount = player.deck.coins
+        copperHandCount = player.hand.count('Copper')
+        
+        if coinDeckCount <= 3:
+            pass
+        elif coinDeckCount > 3 and (coinDeckCount-copperHandCount) <= 3:
+            for c in player.hand.cards:
+                if str(c) == 'Copper':
+                    trashers += [c]
+                    coinDeckCount -= 1
+                    copperHandCount -= 1
+                if (coinDeckCount <=3) or (copperHand == 0):
+                    break
+        else:
+            for c in player.hand.cards:
+                if str(c) == 'Copper':
+                    trashers += [c]
+        
+    return trashers
 
 ###############################################################################
     

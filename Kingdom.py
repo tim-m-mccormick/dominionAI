@@ -24,6 +24,9 @@ class Kingdom:
         self.stacks['Duchy']    = Stack([Card('Duchy',    self.game) for i in range(self.n_vict(self.game.n_players))])
         self.stacks['Province'] = Stack([Card('Province', self.game) for i in range(self.n_vict(self.game.n_players))])
         
+        #Introduce a trash stack that is empty to start
+        self.stacks['Trash'] = Stack([])
+        
         for card in self.game.cards:
             self.stacks[card] = Stack([Card(card, self.game) for i in range(10)]) # needs to be adjusted for things like Gardens
     

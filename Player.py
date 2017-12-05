@@ -76,7 +76,8 @@ class Player:
         #print(self.hand.names())
         return None
     
-    # private method for discarding. used for cleanup and attacks
+####Discard functions
+
     def discard(self, n):
         
         if n == self.hand.size():
@@ -96,6 +97,8 @@ class Player:
         self.discard(self.hand.size()-n)
         return None
     
+####Functions  for other to do
+
     def others_draw(self, n):
         for p in self.game.other_players:
             p.draw(n)
@@ -115,10 +118,18 @@ class Player:
         for p in self.game.other_players:
             p.gain(card)
         return None
-    
-    def trash(self, card):
+
+####Trash function 
+   
+    def trash(self):
+        self.trashers = tuple(self.strategy.trash(self))  
+        for c in self.discards: 
+            self.hand.remove(c)
+            self.deck.remove(c)
+        self.game.kingdom.stacks['Trash'].extend(self.trashers)
         
-        return None # not used yet
+        del self.trashers 
+        return None
     
     # take turn by passing self to self's strategy, which calls play_action(), buy() and cleanup()
     def take_turn(self):

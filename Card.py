@@ -142,7 +142,17 @@ class Chancellor(CardClass):
     pass
 
 class Chapel(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 2
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        self.game.active_player.trash()
+        return None
 
 class CouncilRoom(CardClass):
     def __init__(self, game=None):

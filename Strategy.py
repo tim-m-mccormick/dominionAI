@@ -172,6 +172,13 @@ class Strategy:
                     trashers += [c]
         
         return trashers
+    
+####Cycle function for use in Cellar    
+    def cycle(self, player):
+        
+        
+        
+        return cyclers
 
 ###############################################################################
     

@@ -136,7 +136,17 @@ class Bureaucrat(CardClass):
     pass
 
 class Cellar(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 2
+        self.cost   = 2
+        self.game   = game
+        self.terminal_action = False
+        
+    def card_action(self):
+        self.game.active_player.cycle()
+        return None
 
 class Chancellor(CardClass):
     pass
@@ -253,7 +263,7 @@ class Smithy(CardClass):
 class Spy(CardClass):
     pass
 
-class Theif(CardClass):
+class Thief(CardClass):
     pass
 
 class ThroneRoom(CardClass):

@@ -132,6 +132,14 @@ class Player:
         del self.trashers 
         return None
     
+####Cycle function for cellar (maybe others???)
+    def cycle(self):
+        self.numCycle = self.strategy.cycle()
+        self.discard(self.numCycle)
+        self.draw(self.numCycle)
+        
+        return None
+    
     # take turn by passing self to self's strategy, which calls play_action(), buy() and cleanup()
     def take_turn(self):
         

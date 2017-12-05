@@ -184,7 +184,11 @@ class Strategy:
         cyclers = 0
         
         handValue     = player.hand.coins/player.hand.size()
-        drawPileValue = player.draw_pile.coins/player.draw_pile.size()
+        # must first make sure that draw pile is not empty
+        if player.draw_pile.size() is not 0:
+            drawPileValue = player.draw_pile.coins/player.draw_pile.size()
+        else:
+            drawPileValue = player.draw_pile.coins/player.discard_pile.size()
         for c in player.hand.cards:
             if c.type == 'Victory' or (str(c) == 'Copper' and handValue > drawPileValue):
                 cyclers += 1

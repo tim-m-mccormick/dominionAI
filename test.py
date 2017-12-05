@@ -11,12 +11,12 @@ import numpy as np
 cards = ['Cellar', 'Village', 'Workshop', 'Witch', 'Market',
          'Moat', 'Woodcutter', 'Militia', 'Smithy', 'Mine']
 
-num_games = 1
+num_games = 1000
 avg_scores = np.array([0., 0.])
 for i in range(num_games):
     game = Game(n_players=2,
                 strategy=[BigMoney, BigMoneyXCard],
-                options = [{},{'card_name':'Cellar', 'n_Card':1}], cards = cards, verbose=True)
+                options = [{},{'card_name':'Cellar', 'n_Card':1}], cards = cards, verbose=False)
     game.play()
     avg_scores += game.get_final_scores()
     

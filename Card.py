@@ -163,6 +163,7 @@ class Cellar(CardClass):
         self.terminal_action = False
         
     def card_action(self):
+        self.game.active_player.actions += 1
         self.game.active_player.cycle()
         return None
 

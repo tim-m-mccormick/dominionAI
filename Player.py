@@ -73,7 +73,7 @@ class Player:
                     return None
             self.hand.extend([self.draw_pile.pop()])
 
-        #print(self.hand.names())
+#        print(self.hand.names())
         return None
     
 ####Discard functions
@@ -89,6 +89,7 @@ class Player:
                    
         for c in self.discards: 
             self.hand.remove(c)
+#            print('  discard' + str(c))
         self.discard_pile.extend(self.discards)
         del self.discards
         return None
@@ -134,7 +135,7 @@ class Player:
     
 ####Cycle function for cellar (maybe others???)
     def cycle(self):
-        self.numCycle = self.strategy.cycle()
+        self.numCycle = self.strategy.cycle(self)
         self.discard(self.numCycle)
         self.draw(self.numCycle)
         

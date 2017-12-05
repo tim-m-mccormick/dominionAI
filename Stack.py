@@ -25,7 +25,9 @@ class Stack:
         return None
     
     def update(self):        
-        pass
+        self.points = sum([card.points for card in self.cards])
+        self.coins  = sum([card.value for card in self.cards])
+        return self
     
     def extend(self, newcards):        
         self.cards.extend(newcards)

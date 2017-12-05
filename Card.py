@@ -130,16 +130,34 @@ class Colony(CardClass):
         
 """ Base game kingdom cards """
 class Adventurer(CardClass):    
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 6
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Bureaucrat(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action Attack'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Cellar(CardClass):
     def __init__(self, game=None):
         self.type   = 'Action'
         self.points = 0
-        self.value  = 2
+        self.value  = 0
         self.cost   = 2
         self.game   = game
         self.terminal_action = False
@@ -149,7 +167,16 @@ class Cellar(CardClass):
         return None
 
 class Chancellor(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 3
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Chapel(CardClass):
     def __init__(self, game=None):
@@ -180,7 +207,16 @@ class CouncilRoom(CardClass):
         return None
 
 class Feast(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Festival(CardClass):
     def __init__(self, game=None):
@@ -198,7 +234,16 @@ class Festival(CardClass):
         return None
 
 class Gardens(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Victory'
+        self.points = 0
+        self.value  = 0##WRONG, FIX!!!!
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Laboratory(CardClass):
     def __init__(self, game=None):
@@ -215,7 +260,16 @@ class Laboratory(CardClass):
         return None
 
 class Library(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 5
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Market(CardClass):
     def __init__(self, game=None):
@@ -248,16 +302,52 @@ class Militia(CardClass):
         return None
             
 class Mine(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 5
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Moat(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 2
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Moneylender(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Remodel(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Smithy(CardClass):
     def __init__(self, game=None):
@@ -273,13 +363,40 @@ class Smithy(CardClass):
         return None
 
 class Spy(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class Thief(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass
 
 class ThroneRoom(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type   = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 4
+        self.game   = game
+        self.terminal_action = 0.5
+        
+    def card_action(self):
+        pass
 
 class Village(CardClass):
     def __init__(self, game=None):
@@ -297,7 +414,7 @@ class Village(CardClass):
     
 class Witch(CardClass):
     def __init__(self, game=None):
-        self.type   = 'Action Attack'
+        self.type   = 'Action'
         self.points = 0
         self.value  = 0
         self.cost   = 5
@@ -324,4 +441,13 @@ class Woodcutter(CardClass):
         return None
 
 class Workshop(CardClass):
-    pass
+    def __init__(self, game=None):
+        self.type = 'Action'
+        self.points = 0
+        self.value  = 0
+        self.cost   = 3
+        self.gmae   = game
+        self.terminal_action = True
+        
+    def card_action(self):
+        pass

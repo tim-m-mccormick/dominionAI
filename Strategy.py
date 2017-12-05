@@ -175,8 +175,19 @@ class Strategy:
     
 ####Cycle function for use in Cellar    
     def cycle(self, player):
+        """
+        Basic cycling function
+        Will discard all victory cards
+        Will discard copper if (total coins in draw pile)/(card in draw pile) 
+        is greater than (total coins in hand)/(card in hand)
+        """
+        cyclers = 0
         
-        
+        handValue     = player.hand.coins/player.hand.size()
+        drawPileValue = player.draw_pile.coins/player.draw_pile.size()
+        for c in player.hand.cards:
+            if c.type == 'Victory' or (str(c) == 'Copper' and handValue > drawPileValue):
+                cyclers += 1
         
         return cyclers
 

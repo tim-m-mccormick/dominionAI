@@ -112,7 +112,7 @@ class Strategy:
             # back to money
             self.naive_buy(player)
     
-    def discard(self, player, n):
+    def ddiscard(self, player, n):
         """
         default discarding strategy priority is: victory cards, coppers, silvers,
         terminal actions, other actions, and gold
@@ -162,7 +162,31 @@ class Strategy:
             return discards
         
         return discards # this should never happen
+    
+    def discard(self, player, n):
+        """
+        default discarding strategy priority is: victory cards, coppers, silvers,
+        terminal actions, other actions, and gold
+        """
+        discards = []    
         
+        # first look at victories and return an 
+        # appropriately sized list if sufficient,
+        # then add coppers and do the same etc.      
+        for func in [lambda x: x.is_only('Victory'),
+                     lambda x: str(x) == 'Copper',
+                     lambda x: str(x) == 'Silver',
+                     lambda x: x.is_type('Action') and x.terminal_action,
+                     lambda x: x.is_type('Action') and not x.terminal_action,
+                     lambda x: str(x) == 'Gold']:
+            
+            discards += list(filter(func, player.hand.cards))
+            if len(discards) >= n:
+                while len(discards) > n:
+                    discards.pop()
+                return discards
+                
+        return discards # this should never happen        
     def trash(self, player):
         """
         Defaults trashing strategy priority is: Estates, coppers

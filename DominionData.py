@@ -49,7 +49,7 @@ class DominionData:
         
         #we need a default game to call to kingdom
         self.def_game  = Game(n_players=2, strategy=self.strats,
-                              options = self.options, cards=self.cards, verbose=self.verbose, random_order=False)
+                              options = self.options, cards=self.cards, verbose=False, random_order=False)
         self.kingdom   = Kingdom(self.def_game)
         self.players   = [Player(self, self.strats[n]) for n in range(self.n_players)]
         self.names     = [str(x.strategy) for x in self.def_game.players]

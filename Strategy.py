@@ -75,7 +75,8 @@ class Strategy:
         old big-money naive buy
         """
         if player.coins <= 2:
-            pass
+            player.buys -= 1 # if we get to this point, player has a useless buy
+                             # which he "spends" on nothing to kick out of while buys > 0 loops
         elif player.coins <= 5:
             player.buy('Silver')
         elif player.coins <= 7:
@@ -372,7 +373,94 @@ class VillageMilitia(Strategy):
         # then just buys money and provinces
         else:
             self.buy_non_actions(player)
+
+class TwoCardEngine(Strategy):
+    """
+    based on village/smithy, will buy action cards when hand.coins
+    is in the right range. plays non-terminal actions before terminal
+    ones. intended for use with one terminal and one non-terminal action
+    
+        KEYWORD_ARGUMENTS:
+            card_1 : name of 1st card
+            n_1    : number of 1st card
+            card_2 : name of 2nd card
+            n_2    : number of 2nd card
+            overpay_by : (optional) prevents bot from over-paying for
+                            listed actions by more than overpay_by.
+                            defaults to 10 which should be sufficient
+                            to always over-pay
+            skip_gold : (optional) if True, bot will overpay for action
+                            even if it could by a gold. defaults to True.
+                            will not skip buying provinces but a similar
+                            switch could be added for that
+    """
+
+    def action_phase(self, player):
+        non_terminal = list(filter(lambda x: x.is_type('Action') and not x.terminal_action, player.hand.cards))
+        terminal     = list(filter(lambda x: x.is_type('Action') and x.terminal_action, player.hand.cards))
+        for card in non_terminal + terminal: # plays all non-terminals and as many terminals as possible
+            if player.actions > 0:
+                player.play_action(str(card))
+            else:
+                break
             
+        return None
+    
+    def buy_phase(self, player):
+        """ 
+        note that there is presently no guarantee the bot will actually buy
+        both of the cards. could be re-worked to force the bot to look for a balance
+        i.e. buy the provided card it has fewer of, given other conditions
+        """        
+        empty_piles = list(map(lambda x: player.game.kingdom.stacks[x].size() is 0,
+                               [self.kwargs['card_1'], self.kwargs['card_2']]))
+        
+        if all(empty_piles):
+            while player.buys > 0:
+               self.buy_non_actions(player)
+            return None
+        
+        # set default kwargs if they weren't provided
+        if 'overpay_by' not in self.kwargs.keys():
+            self.kwargs['overpay_by'] = 10
+        if 'skip_gold' not in self.kwargs.keys():
+            self.kwargs['skip_gold'] = True
+               
+        indices     = [0,1] # for checkign counts of other card during loop
+        cards       = [self.kwargs['card_1'], self.kwargs['card_2']]
+        targets     = [self.kwargs['n_1'], self.kwargs['n_2']]  
+        counts      = list(map(lambda x: player.deck.count(x), cards))             
+        terminal    = list(map(lambda x: player.game.kingdom.stacks[x].cards[0].terminal_action, cards))        
+        costs       = list(map(lambda x: player.game.kingdom.stacks[x].cards[0].cost, cards))
+        
+        for idx, term, cost, card, count, target, empty in \
+            list(zip(indices, terminal, costs, cards, counts, targets, empty_piles)):
+            #print(term, cost, card, count, target, empty, player.buys)
+            # buys terminal actions first (probably bad idea, just based on smithy/village)                    
+            if player.buys > 0:
+                if player.coins >= 8: # don't skimp on provinces
+                    self.buy_non_actions(player) 
+                    break
+                elif player.coins >= 6 and not self.kwargs['skip_gold']:
+                    self.buy_non_actions(player)
+                    break
+                elif term and player.coins >= cost and \
+                player.coins <= cost + self.kwargs['overpay_by'] and \
+                count < target and count <= counts[(idx+1)%2] and not empty: # 2-cards is hard coded
+                     player.buy(card)
+                     break # jump out of the for loop so buys>0 gets tested
+                elif not term and player.coins >= cost and \
+                player.coins <= cost + self.kwargs['overpay_by'] and \
+                count < target and count <= counts[(idx+1)%2] and not empty:
+                    player.buy(card)
+                    break
+
+        # if we get here, bot thinks it has enough actions
+        while player.buys > 0:
+            self.buy_non_actions(player)
+                    
+        return None
+             
 ###############################################################################
             
 class Random(Strategy):

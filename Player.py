@@ -172,6 +172,7 @@ class Player:
 
         popped = self.gain(card)
         self.coins -= popped.cost
+        self.buys  -= 1
         return None
     
     def gain(self, card):

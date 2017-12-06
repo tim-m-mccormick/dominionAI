@@ -111,37 +111,58 @@ class Strategy:
         else:
             # back to money
             self.naive_buy(player)
-            
+    
     def discard(self, player, n):
         """
         default discarding strategy priority is: victory cards, coppers, silvers,
         terminal actions, other actions, and gold
         """
-        discards = []
-        while len(discards) < n:
-            for card in player.hand.cards:
-                # new behavior here will not discard multi-type victories like Great Hall
-                if not card.is_type('Action') and not card.is_type('Treasure') and card not in discards:
-                    discards += [card]
-                    break
-                elif str(card) == 'Copper' and card not in discards:
-                    discards += [card]
-                    break
-                elif str(card) == 'Silver' and card not in discards:
-                    discards += [card]
-                    break
-                elif card.is_type('Action') and card.terminal_action and card not in discards:
-                    discards += [card]
-                    break
-                elif card.is_type('Action') and not card.terminal_action and card not in discards:
-                    discards += [card]
-                    break
-                elif str(card) == 'Gold' and card not in discards:
-                    discards += [card]
-                    break
+        
+        # first look at victories and return an 
+        # appropriately sized list if sufficient
+        discards = list(filter(lambda x: x.is_only('Victory'), player.hand.cards))
+        if len(discards) >= n:
+            while len(discards) > n:
+                discards.pop()
+            return discards
 
-        return discards
-    
+        # now add coppers and do the same thing
+        discards += list(filter(lambda x: str(x) == 'Copper', player.hand.cards))
+        if len(discards) >= n:
+            while len(discards) > n:
+                discards.pop()
+            return discards
+        
+        # silvers and repeat
+        discards += list(filter(lambda x: str(x) == 'Silver', player.hand.cards))
+        if len(discards) >= n:
+            while len(discards) > n:
+                discards.pop()
+            return discards
+        
+        # terminal actions (WHICH terminal actions to discard is another question entirely)
+        discards += list(filter(lambda x: x.is_type('Action') and x.terminal_action, player.hand.cards))
+        if len(discards) >= n:
+            while len(discards) > n:
+                discards.pop()
+            return discards
+        
+        # non-terminal actions
+        discards += list(filter(lambda x: x.is_type('Action') and not x.terminal_action, player.hand.cards))
+        if len(discards) >= n:
+            while len(discards) > n:
+                discards.pop()
+            return discards
+        
+        # golds
+        discards += list(filter(lambda x: str(x) == 'Gold', player.hand.cards))
+        if len(discards) >= n:
+            while len(discards) > n:
+                discards.pop()
+            return discards
+        
+        return discards # this should never happen
+        
     def trash(self, player):
         """
         Defaults trashing strategy priority is: Estates, coppers
@@ -188,7 +209,7 @@ class Strategy:
         if player.draw_pile.size() is not 0:
             drawPileValue = player.draw_pile.coins/player.draw_pile.size()
         else:
-            drawPileValue = player.draw_pile.coins/player.discard_pile.size()
+            drawPileValue = player.discard_pile.coins/player.discard_pile.size()
         for c in player.hand.cards:
             if c.type == 'Victory' or (str(c) == 'Copper' and handValue > drawPileValue):
                 cyclers += 1
@@ -373,3 +394,22 @@ class VillageMilitia(Strategy):
         # then just buys money and provinces
         else:
             self.buy_non_actions(player)
+            
+###############################################################################
+            
+class Random(Strategy):
+    """
+    for model-training purposes:
+    buys a random affordable card on every buy phase. Plays random
+    actions until it's out of actions. Discards random cards from hand, etc.
+    """
+    pass # need to finish implementing all cards first
+    
+class SmartRandom(Strategy):
+    """
+    for model-training purposes:
+    buys a random card costing exactly the number of coins,
+    or one less, etc. Plays non-terminal actions before terminal
+    actions and discards cards using the default function
+    """
+    pass # need to finish implementing all cards first

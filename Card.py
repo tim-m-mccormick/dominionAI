@@ -39,7 +39,12 @@ class CardClass:
     
     # boolean function to handle multi-type cards like harem
     def is_type(self, card_type):
+        print(card_type + " is " + ''.join(self.type.split())+"?")
         return card_type in self.type.split()
+    
+    # boolean function to tell you if something is just one type
+    def is_only(self, card_type):
+        return card_type == self.type
     
     # effect when played
     def card_action(*args):

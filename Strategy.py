@@ -111,58 +111,7 @@ class Strategy:
         else:
             # back to money
             self.naive_buy(player)
-    
-    def ddiscard(self, player, n):
-        """
-        default discarding strategy priority is: victory cards, coppers, silvers,
-        terminal actions, other actions, and gold
-        """
         
-        # first look at victories and return an 
-        # appropriately sized list if sufficient
-        discards = list(filter(lambda x: x.is_only('Victory'), player.hand.cards))
-        if len(discards) >= n:
-            while len(discards) > n:
-                discards.pop()
-            return discards
-
-        # now add coppers and do the same thing
-        discards += list(filter(lambda x: str(x) == 'Copper', player.hand.cards))
-        if len(discards) >= n:
-            while len(discards) > n:
-                discards.pop()
-            return discards
-        
-        # silvers and repeat
-        discards += list(filter(lambda x: str(x) == 'Silver', player.hand.cards))
-        if len(discards) >= n:
-            while len(discards) > n:
-                discards.pop()
-            return discards
-        
-        # terminal actions (WHICH terminal actions to discard is another question entirely)
-        discards += list(filter(lambda x: x.is_type('Action') and x.terminal_action, player.hand.cards))
-        if len(discards) >= n:
-            while len(discards) > n:
-                discards.pop()
-            return discards
-        
-        # non-terminal actions
-        discards += list(filter(lambda x: x.is_type('Action') and not x.terminal_action, player.hand.cards))
-        if len(discards) >= n:
-            while len(discards) > n:
-                discards.pop()
-            return discards
-        
-        # golds
-        discards += list(filter(lambda x: str(x) == 'Gold', player.hand.cards))
-        if len(discards) >= n:
-            while len(discards) > n:
-                discards.pop()
-            return discards
-        
-        return discards # this should never happen
-    
     def discard(self, player, n):
         """
         default discarding strategy priority is: victory cards, coppers, silvers,

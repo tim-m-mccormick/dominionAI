@@ -135,7 +135,8 @@ class Strategy:
                     discards.pop()
                 return discards
                 
-        return discards # this should never happen        
+        return discards # this should never happen
+    
     def trash(self, player):
         """
         Defaults trashing strategy priority is: Estates, coppers
@@ -166,8 +167,7 @@ class Strategy:
                     trashers += [c]
         
         return trashers
-    
-####Cycle function for use in Cellar    
+        
     def cycle(self, player):
         """
         Basic cycling function
@@ -175,14 +175,18 @@ class Strategy:
         Will discard copper if (total coins in draw pile)/(card in draw pile) 
         is greater than (total coins in hand)/(card in hand)
         """
-        cyclers = 0
+        if player.hand.size() == 0:
+            return 0 # if empty hand nothing do discard
         
+        cyclers = 0
         handValue     = player.hand.coins/player.hand.size()
         # must first make sure that draw pile is not empty
         if player.draw_pile.size() is not 0:
             drawPileValue = player.draw_pile.coins/player.draw_pile.size()
-        else:
+        elif player.discard_pile.size() is not 0:
             drawPileValue = player.discard_pile.coins/player.discard_pile.size()
+        else:
+            return 0 # if all cards not in hand are in play, no reason to cycle
         for c in player.hand.cards:
             if c.type == 'Victory' or (str(c) == 'Copper' and handValue > drawPileValue):
                 cyclers += 1
@@ -293,7 +297,8 @@ class BigMoneyXCard(Strategy):
             card_name = string correponding to card to buy
     """
     def action_phase(self, player):
-        if self.kwargs['card_name'] in player.hand.names():
+        
+        while player.actions > 0 and self.kwargs['card_name'] in player.hand.names():
             player.play_action(self.kwargs['card_name'])
         return None
     
